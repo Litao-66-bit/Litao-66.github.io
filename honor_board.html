@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>荣誉榜 - 熏眠听澜台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#f3e5f5',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-shadow {
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+            .nav-shadow {
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- 顶部导航栏 -->
+    <header class="bg-primary text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <button id="backButton" class="mr-4">
+                    <i class="fa fa-arrow-left text-xl"></i>
+                </button>
+                <h1 class="text-xl font-bold">荣誉榜</h1>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container mx-auto px-4 py-6">
+        <div class="bg-white rounded-lg p-6 card-shadow">
+            <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/63d338bea3c5437c9b27dab8ae2d403e.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&rcl=202605310955183BBF9DDC31A16DDA61FD&rrcfp=8a172a1a&x-expires=1780797318&x-signature=j26PbfGa99MbvYloET9Qm9V7NH0%3D" alt="荣誉榜" class="w-full h-48 object-cover rounded-lg mb-4">
+            <h2 class="text-lg font-bold mb-2">荣誉榜</h2>
+            <p class="text-gray-600 mb-4">感谢这些用户为社区带来的温暖和帮助。</p>
+            <div class="space-y-4">
+                <div class="flex items-center p-3 bg-light rounded-lg">
+                    <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                        <span class="text-yellow-500 font-bold">1</span>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-semibold">暖心小天使</h4>
+                        <p class="text-xs text-gray-500">已帮助 135 人解忧</p>
+                    </div>
+                    <img src="https://img95.699pic.com/element/40024/0023.png_860.png" alt="荣誉榜" class="w-16 h-16 object-contain">
+                </div>
+                <div class="flex items-center p-3 bg-light rounded-lg">
+                    <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                        <span class="text-gray-500 font-bold">2</span>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-semibold">智慧星</h4>
+                        <p class="text-xs text-gray-500">已帮助 98 人解忧</p>
+                    </div>
+                </div>
+                 <div class="flex items-center p-3 bg-light rounded-lg">
+                    <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mr-3">
+                        <span class="text-orange-500 font-bold">3</span>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-semibold">治愈师</h4>
+                        <p class="text-xs text-gray-500">已帮助 87 人解忧</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部导航栏 -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white nav-shadow z-40">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-around py-3">
+                <a href="index.html" class="flex flex-col items-center text-gray-600">
+                    <i class="fa fa-home text-xl"></i>
+                    <span class="text-xs mt-1">首页</span>
+                </a>
+                <a href="health.html" class="flex flex-col items-center text-primary">
+                    <i class="fa fa-heartbeat text-xl"></i>
+                    <span class="text-xs mt-1">健康中心</span>
+                </a>
+                <a href="profile.html" class="flex flex-col items-center text-gray-600">
+                    <i class="fa fa-user text-xl"></i>
+                    <span class="text-xs mt-1">我的</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 返回按钮功能
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.history.back();
+        });
+    </script>
+</body>
+</html>

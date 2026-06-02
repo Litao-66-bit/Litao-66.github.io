@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>解忧博物馆 - 熏眠听澜台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#f3e5f5',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-shadow {
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+            .nav-shadow {
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- 顶部导航栏 -->
+    <header class="bg-primary text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <button id="backButton" class="mr-4">
+                    <i class="fa fa-arrow-left text-xl"></i>
+                </button>
+                <h1 class="text-xl font-bold">解忧博物馆</h1>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container mx-auto px-4 py-6">
+        <div class="bg-white rounded-lg p-6 card-shadow">
+            <img src="https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/4445174b7dda4496ac2c05f738f9ef3e.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&rcl=2026053109531901107F2B0094725BA381&rrcfp=8a172a1a&x-expires=1780797199&x-signature=XXTaWN%2Fl%2F03tmBc42pUWRYq6Hpw%3D" alt="解忧博物馆" class="w-full h-48 object-cover rounded-lg mb-4">
+            <h2 class="text-lg font-bold mb-2">解忧博物馆</h2>
+            <p class="text-gray-600 mb-4">在这里，你可以浏览其他人的烦恼与解答，或许能从中找到共鸣和启发。</p>
+            <button class="w-full bg-primary text-white py-3 rounded-full font-semibold" onclick="browseExhibits()">开始逛展</button>
+        </div>
+    </main>
+
+    <!-- 底部导航栏 -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white nav-shadow z-40">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-around py-3">
+                <a href="index.html" class="flex flex-col items-center text-gray-600">
+                    <i class="fa fa-home text-xl"></i>
+                    <span class="text-xs mt-1">首页</span>
+                </a>
+                <a href="health.html" class="flex flex-col items-center text-primary">
+                    <i class="fa fa-heartbeat text-xl"></i>
+                    <span class="text-xs mt-1">健康中心</span>
+                </a>
+                <a href="profile.html" class="flex flex-col items-center text-gray-600">
+                    <i class="fa fa-user text-xl"></i>
+                    <span class="text-xs mt-1">我的</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 返回按钮功能
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.history.back();
+        });
+
+        // 开始逛展
+        function browseExhibits() {
+            alert('正在加载解忧展品...');
+        }
+    </script>
+</body>
+</html>

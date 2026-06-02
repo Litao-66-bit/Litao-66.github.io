@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>熏眠听澜台 - 改善轨迹</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#fce4ec',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .card-shadow {
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .gradient-bg {
+                background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-4 py-2 rounded-full shadow-md hover:bg-opacity-90 transition-all;
+            }
+            .btn-secondary {
+                @apply bg-secondary text-primary px-4 py-2 rounded-full shadow-md hover:bg-opacity-90 transition-all;
+            }
+            .nav-item {
+                @apply flex flex-col items-center justify-center text-xs;
+            }
+            .nav-item.active {
+                @apply text-primary;
+            }
+            .nav-item:not(.active) {
+                @apply text-gray-500;
+            }
+            .chart-card {
+                @apply bg-white rounded-xl p-4 shadow-sm cursor-pointer;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 顶部导航栏 -->
+    <div class="bg-primary text-white p-4 shadow-md">
+        <div class="flex items-center">
+            <button onclick="window.location.href='data_statistics.html'" class="mr-4">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <h1 class="text-lg font-medium flex-grow text-center">改善轨迹</h1>
+            <div class="w-4"></div> <!-- 占位，保持标题居中 -->
+        </div>
+    </div>
+
+    <!-- 主要图表 -->
+    <div class="bg-white rounded-xl mx-4 mt-4 shadow-sm overflow-hidden p-4">
+        <h3 class="text-lg font-medium text-gray-800 mb-3">近一个月改善轨迹</h3>
+        <div class="h-48">
+            <canvas id="mainTrackChart"></canvas>
+        </div>
+    </div>
+
+    <!-- 历史轨迹卡片 -->
+    <div class="grid grid-cols-2 gap-4 p-4">
+        <!-- 2024年6月17日 -->
+        <div class="chart-card">
+            <h4 class="text-sm font-medium text-gray-800 mb-2">2024年6月17日</h4>
+            <div class="h-24">
+                <canvas id="trackChart1"></canvas>
+            </div>
+        </div>
+
+        <!-- 2024年6月11日 -->
+        <div class="chart-card">
+            <h4 class="text-sm font-medium text-gray-800 mb-2">2024年6月11日</h4>
+            <div class="h-24">
+                <canvas id="trackChart2"></canvas>
+            </div>
+        </div>
+
+        <!-- 2024年6月4日 -->
+        <div class="chart-card">
+            <h4 class="text-sm font-medium text-gray-800 mb-2">2024年6月4日</h4>
+            <div class="h-24">
+                <canvas id="trackChart3"></canvas>
+            </div>
+        </div>
+
+        <!-- 2024年5月28日 -->
+        <div class="chart-card">
+            <h4 class="text-sm font-medium text-gray-800 mb-2">2024年5月28日</h4>
+            <div class="h-24">
+                <canvas id="trackChart4"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- 改善总结 -->
+    <div class="bg-white rounded-xl mx-4 mt-2 mb-20 shadow-sm overflow-hidden p-4">
+        <div class="flex items-center mb-3">
+            <div class="w-8 h-8 rounded-full bg-light flex items-center justify-center mr-2">
+                <i class="fa fa-line-chart text-primary"></i>
+            </div>
+            <h3 class="text-lg font-medium text-gray-800">改善总结</h3>
+        </div>
+        
+        <div class="space-y-3">
+            <div class="flex items-start">
+                <i class="fa fa-arrow-up text-green-500 mt-1 mr-2"></i>
+                <p class="text-sm text-gray-600">睡眠质量：从65分提升至82分，提升了17分</p>
+            </div>
+            <div class="flex items-start">
+                <i class="fa fa-arrow-up text-green-500 mt-1 mr-2"></i>
+                <p class="text-sm text-gray-600">入睡时间：从平均45分钟缩短至20分钟</p>
+            </div>
+            <div class="flex items-start">
+                <i class="fa fa-arrow-up text-green-500 mt-1 mr-2"></i>
+                <p class="text-sm text-gray-600">夜间醒来：从平均3次减少至1次</p>
+            </div>
+            <div class="flex items-start">
+                <i class="fa fa-check-circle text-primary mt-1 mr-2"></i>
+                <p class="text-sm text-gray-600">建议：继续保持当前的使用习惯，定期调整精油配方</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 rounded-t-3xl shadow-lg">
+        <div class="flex justify-around py-3">
+            <a href="index.html" class="nav-item">
+                <i class="fa fa-home text-xl mb-1"></i>
+                <span>首页</span>
+            </a>
+            <a href="health.html" class="nav-item active">
+                <i class="fa fa-heartbeat text-xl mb-1"></i>
+                <span>健康中心</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <i class="fa fa-user text-xl mb-1"></i>
+                <span>我的</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 初始化图表
+        let mainTrackChart, trackChart1, trackChart2, trackChart3, trackChart4;
+
+        // 页面加载时执行
+        window.onload = function() {
+            // 初始化主轨迹图表
+            const mainCtx = document.getElementById('mainTrackChart').getContext('2d');
+            mainTrackChart = new Chart(mainCtx, {
+                type: 'line',
+                data: {
+                    labels: ['5/28', '5/30', '6/1', '6/3', '6/5', '6/7', '6/9', '6/11', '6/13', '6/15', '6/17'],
+                    datasets: [{
+                        label: '睡眠质量',
+                        data: [65, 68, 70, 72, 75, 76, 78, 80, 81, 82, 82],
+                        backgroundColor: 'rgba(248, 187, 208, 0.2)',
+                        borderColor: '#f8bbd0',
+                        borderWidth: 2,
+                        tension: 0.4,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            min: 60,
+                            max: 100,
+                            grid: {
+                                display: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // 初始化历史轨迹图表
+            const createTrackChart = (canvasId, data, color) => {
+                const ctx = document.getElementById(canvasId).getContext('2d');
+                return new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['00:00', '04:00', '08:00', '12:00', '16:00', '20:00'],
+                        datasets: [{
+                            data: data,
+                            backgroundColor: `rgba(${color}, 0.2)`,
+                            borderColor: `rgb(${color})`,
+                            borderWidth: 2,
+                            tension: 0.4,
+                            fill: true
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                display: false
+                            },
+                            x: {
+                                display: false
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        }
+                    }
+                });
+            };
+
+            trackChart1 = createTrackChart('trackChart1', [60, 65, 70, 75, 80, 82], '184, 115, 255');
+            trackChart2 = createTrackChart('trackChart2', [55, 60, 65, 70, 75, 78], '100, 181, 246');
+            trackChart3 = createTrackChart('trackChart3', [50, 55, 60, 65, 70, 75], '255, 152, 0');
+            trackChart4 = createTrackChart('trackChart4', [45, 50, 55, 60, 65, 70], '255, 87, 34');
+        };
+    </script>
+</body>
+</html>

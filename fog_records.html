@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>雾化记录 - 熏眠听澜台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#fce4ec',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .card-shadow {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            .nav-shadow {
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+            .gradient-header {
+                background: linear-gradient(135deg, #b39ddb 0%, #9575cd 50%, #7e57c2 100%);
+            }
+            .tab-item {
+                @apply py-2 px-5 text-sm rounded-full font-medium transition-all;
+            }
+            .tab-item.active {
+                @apply bg-primary text-white shadow-md;
+            }
+            .tab-item:not(.active) {
+                @apply bg-white text-gray-500 hover:bg-purple-50;
+            }
+            .stat-card {
+                @apply bg-white rounded-2xl shadow-sm overflow-hidden transition-all duration-300;
+            }
+            .stat-card:hover {
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            }
+            .record-item {
+                @apply flex items-center justify-between px-4 py-3.5 transition-colors cursor-pointer;
+            }
+            .record-item:hover {
+                @apply bg-purple-50;
+            }
+            .record-item + .record-item {
+                @apply border-t border-gray-100;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans" style="padding-bottom: 80px;">
+    <!-- 顶部导航栏 -->
+    <header class="gradient-header text-white shadow-md">
+        <div class="flex items-center px-5 pt-4 pb-5">
+            <button onclick="window.location.href='health.html'" class="mr-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <h1 class="text-lg font-bold tracking-wide flex-grow text-center">雾化记录</h1>
+            <div class="w-8"></div>
+        </div>
+    </header>
+
+    <!-- 时间筛选标签 -->
+    <div class="px-4 py-4 overflow-x-auto whitespace-nowrap">
+        <div class="inline-flex space-x-2 bg-white rounded-full p-1 shadow-sm">
+            <button class="tab-item" data-period="week">近7天</button>
+            <button class="tab-item" data-period="month">近30天</button>
+            <button class="tab-item active" data-period="all">全部</button>
+        </div>
+    </div>
+
+    <!-- 统计数据 -->
+    <div class="px-4">
+        <div class="stat-card">
+            <div class="grid grid-cols-2 divide-x divide-gray-100">
+                <div class="p-5 text-center">
+                    <div class="w-10 h-10 mx-auto mb-2 rounded-full bg-purple-100 flex items-center justify-center">
+                        <i class="fa fa-clock-o text-primary"></i>
+                    </div>
+                    <p class="text-xs text-gray-500 mb-1">累计总时长</p>
+                    <p class="text-2xl font-bold text-primary" id="totalDuration">302<span class="text-sm font-normal text-gray-500"> 分钟</span></p>
+                </div>
+                <div class="p-5 text-center">
+                    <div class="w-10 h-10 mx-auto mb-2 rounded-full bg-purple-100 flex items-center justify-center">
+                        <i class="fa fa-flask text-primary"></i>
+                    </div>
+                    <p class="text-xs text-gray-500 mb-1">雾化总次数</p>
+                    <p class="text-2xl font-bold text-primary" id="totalCount">12<span class="text-sm font-normal text-gray-500"> 次</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 记录列表 -->
+    <div class="px-4 mt-4">
+        <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
+            <div class="px-4 py-3 bg-gradient-to-r from-purple-50 to-pink-50 border-b border-gray-100">
+                <h3 class="text-sm font-bold text-gray-800 flex items-center">
+                    <i class="fa fa-list-ul text-primary mr-2"></i>
+                    记录明细
+                </h3>
+            </div>
+            <div id="recordsList">
+                <!-- 记录项会通过JavaScript动态生成 -->
+            </div>
+            <div id="emptyState" class="hidden text-center py-10 text-gray-400">
+                <i class="fa fa-inbox text-4xl mb-3 block"></i>
+                <p class="text-sm">暂无记录</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md nav-shadow z-40">
+        <div class="flex justify-around py-3">
+            <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-primary transition-colors group">
+                <i class="fa fa-home text-xl group-hover:scale-110 transition-transform"></i>
+                <span class="text-xs mt-1">首页</span>
+            </a>
+            <a href="health.html" class="flex flex-col items-center text-primary relative">
+                <span class="absolute -top-1 w-6 h-1 bg-primary rounded-full"></span>
+                <i class="fa fa-heartbeat text-xl"></i>
+                <span class="text-xs mt-1 font-medium">健康中心</span>
+            </a>
+            <a href="profile.html" class="flex flex-col items-center text-gray-400 hover:text-primary transition-colors group">
+                <i class="fa fa-user text-xl group-hover:scale-110 transition-transform"></i>
+                <span class="text-xs mt-1">我的</span>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        const recordsData = {
+            week: {
+                totalDuration: 184,
+                totalCount: 7,
+                records: [
+                    { date: '5月30日', time: '22分钟', essentialOil: '合欢花', timeRange: '22:30-22:52', mood: '舒缓' },
+                    { date: '5月29日', time: '25分钟', essentialOil: '薰衣草', timeRange: '21:15-21:40', mood: '助眠' },
+                    { date: '5月28日', time: '28分钟', essentialOil: '薄荷', timeRange: '23:00-23:28', mood: '提神' },
+                    { date: '5月27日', time: '32分钟', essentialOil: '洋甘菊', timeRange: '22:45-23:17', mood: '舒缓' },
+                    { date: '5月26日', time: '25分钟', essentialOil: '薰衣草', timeRange: '22:00-22:25', mood: '助眠' },
+                    { date: '5月25日', time: '30分钟', essentialOil: '柠檬', timeRange: '21:30-22:00', mood: '提神' },
+                    { date: '5月24日', time: '19分钟', essentialOil: '玫瑰', timeRange: '23:15-23:34', mood: '放松' }
+                ]
+            },
+            month: {
+                totalDuration: 273,
+                totalCount: 11,
+                records: [
+                    { date: '5月30日', time: '22分钟', essentialOil: '合欢花', timeRange: '22:30-22:52', mood: '舒缓' },
+                    { date: '5月29日', time: '25分钟', essentialOil: '薰衣草', timeRange: '21:15-21:40', mood: '助眠' },
+                    { date: '5月28日', time: '28分钟', essentialOil: '薄荷', timeRange: '23:00-23:28', mood: '提神' },
+                    { date: '5月27日', time: '32分钟', essentialOil: '洋甘菊', timeRange: '22:45-23:17', mood: '舒缓' },
+                    { date: '5月26日', time: '25分钟', essentialOil: '薰衣草', timeRange: '22:00-22:25', mood: '助眠' },
+                    { date: '5月25日', time: '30分钟', essentialOil: '柠檬', timeRange: '21:30-22:00', mood: '提神' },
+                    { date: '5月24日', time: '19分钟', essentialOil: '玫瑰', timeRange: '23:15-23:34', mood: '放松' },
+                    { date: '5月20日', time: '28分钟', essentialOil: '薰衣草', timeRange: '22:15-22:43', mood: '助眠' },
+                    { date: '5月18日', time: '25分钟', essentialOil: '薄荷', timeRange: '21:45-22:10', mood: '提神' },
+                    { date: '5月15日', time: '30分钟', essentialOil: '洋甘菊', timeRange: '22:30-23:00', mood: '舒缓' },
+                    { date: '5月10日', time: '19分钟', essentialOil: '柠檬', timeRange: '23:00-23:19', mood: '提神' }
+                ]
+            },
+            all: {
+                totalDuration: 302,
+                totalCount: 12,
+                records: [
+                    { date: '5月30日', time: '22分钟', essentialOil: '合欢花', timeRange: '22:30-22:52', mood: '舒缓' },
+                    { date: '5月29日', time: '25分钟', essentialOil: '薰衣草', timeRange: '21:15-21:40', mood: '助眠' },
+                    { date: '5月28日', time: '28分钟', essentialOil: '薄荷', timeRange: '23:00-23:28', mood: '提神' },
+                    { date: '5月27日', time: '32分钟', essentialOil: '洋甘菊', timeRange: '22:45-23:17', mood: '舒缓' },
+                    { date: '5月26日', time: '25分钟', essentialOil: '薰衣草', timeRange: '22:00-22:25', mood: '助眠' },
+                    { date: '5月25日', time: '30分钟', essentialOil: '柠檬', timeRange: '21:30-22:00', mood: '提神' },
+                    { date: '5月24日', time: '19分钟', essentialOil: '玫瑰', timeRange: '23:15-23:34', mood: '放松' },
+                    { date: '5月20日', time: '28分钟', essentialOil: '薰衣草', timeRange: '22:15-22:43', mood: '助眠' },
+                    { date: '5月18日', time: '25分钟', essentialOil: '薄荷', timeRange: '21:45-22:10', mood: '提神' },
+                    { date: '5月15日', time: '30分钟', essentialOil: '洋甘菊', timeRange: '22:30-23:00', mood: '舒缓' },
+                    { date: '5月10日', time: '19分钟', essentialOil: '柠檬', timeRange: '23:00-23:19', mood: '提神' },
+                    { date: '5月5日', time: '19分钟', essentialOil: '玫瑰', timeRange: '22:45-23:04', mood: '放松' }
+                ]
+            }
+        };
+
+        const moodColors = {
+            '舒缓': { bg: 'bg-purple-100', text: 'text-primary' },
+            '助眠': { bg: 'bg-indigo-100', text: 'text-indigo-500' },
+            '提神': { bg: 'bg-teal-100', text: 'text-teal-500' },
+            '放松': { bg: 'bg-pink-100', text: 'text-pink-500' }
+        };
+
+        const oilIcons = {
+            '合欢花': '\uf0f4',
+            '薰衣草': '\uf06c',
+            '薄荷': '\uf06c',
+            '洋甘菊': '\uf0f4',
+            '柠檬': '\uf0f4',
+            '玫瑰': '\uf06c'
+        };
+
+        let currentPeriod = 'all';
+
+        function updateRecords(period) {
+            const data = recordsData[period];
+
+            document.getElementById('totalDuration').innerHTML = `${data.totalDuration}<span class="text-sm font-normal text-gray-500"> 分钟</span>`;
+            document.getElementById('totalCount').innerHTML = `${data.totalCount}<span class="text-sm font-normal text-gray-500"> 次</span>`;
+
+            const recordsList = document.getElementById('recordsList');
+            recordsList.innerHTML = '';
+            const emptyState = document.getElementById('emptyState');
+
+            if (data.records.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            data.records.forEach(record => {
+                const moodStyle = moodColors[record.mood] || { bg: 'bg-gray-100', text: 'text-gray-500' };
+                const icon = oilIcons[record.essentialOil] || '\uf06c';
+
+                const recordItem = document.createElement('div');
+                recordItem.className = 'record-item';
+                recordItem.innerHTML = `
+                    <div class="flex items-center">
+                        <div class="w-9 h-9 rounded-lg ${moodStyle.bg} flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fa ${moodStyle.text}" style="font-size:14px"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center">
+                                <span class="text-sm font-medium text-gray-800">${record.date}</span>
+                                <span class="text-[10px] ${moodStyle.bg} ${moodStyle.text} px-2 py-0.5 rounded-full ml-2 font-medium">${record.mood}</span>
+                            </div>
+                            <p class="text-xs text-gray-500 mt-0.5">
+                                ${record.essentialOil} · ${record.time}
+                            </p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] text-gray-400 flex-shrink-0 ml-2">${record.timeRange}</span>
+                `;
+                recordsList.appendChild(recordItem);
+            });
+        }
+
+        document.querySelectorAll('.tab-item').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab-item').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                currentPeriod = this.getAttribute('data-period');
+                updateRecords(currentPeriod);
+            });
+        });
+
+        window.onload = function() {
+            updateRecords(currentPeriod);
+        };
+    </script>
+</body>
+</html>

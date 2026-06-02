@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车 - 熏眠听澜台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#fce4ec',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .card-shadow {
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .nav-shadow {
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+            .gradient-header {
+                background: linear-gradient(135deg, #b39ddb 0%, #9575cd 50%, #7e57c2 100%);
+            }
+            .order-card {
+                transition: all 0.3s ease;
+            }
+            .order-card:hover {
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            }
+            .status-tab {
+                @apply flex-1 py-3 text-center text-sm font-medium transition-colors;
+            }
+            .status-tab.active {
+                @apply text-primary border-b-2 border-primary;
+            }
+            .status-tab:not(.active) {
+                @apply text-gray-500;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans" style="padding-bottom: 140px;">
+    <!-- 顶部导航栏 -->
+    <header class="gradient-header text-white shadow-md sticky top-0 z-50">
+        <div class="flex items-center px-4 py-3">
+            <button id="backBtn" class="mr-3">
+                <i class="fa fa-arrow-left text-lg"></i>
+            </button>
+            <div class="relative flex-grow">
+                <input type="text" placeholder="搜索订单..." class="w-full bg-white/20 rounded-full py-2 px-4 text-sm focus:outline-none placeholder-white/70 text-white">
+                <i class="fa fa-search absolute right-3 top-2.5 text-sm opacity-70"></i>
+            </div>
+            <button class="ml-3">
+                <i class="fa fa-ellipsis-v text-lg"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- 订单状态标签 -->
+    <div class="bg-white border-b border-gray-200 sticky top-14 z-40">
+        <div class="flex">
+            <button class="status-tab" onclick="switchTab(this, 'all')">全部</button>
+            <button class="status-tab active" onclick="switchTab(this, 'pending')">待付款</button>
+            <button class="status-tab" onclick="switchTab(this, 'shipped')">待发货</button>
+            <button class="status-tab" onclick="switchTab(this, 'receiving')">待收货</button>
+            <button class="status-tab" onclick="switchTab(this, 'completed')">已完成</button>
+        </div>
+    </div>
+
+    <!-- 订单列表 -->
+    <div class="p-4">
+        <!-- 订单 1 - 待付款 -->
+        <div class="order-card bg-white rounded-2xl p-4 mb-4 card-shadow" data-status="pending">
+            <!-- 订单头部 -->
+            <div class="flex justify-between items-center mb-3">
+                <div class="flex items-center">
+                    <i class="fa fa-shopping-bag text-primary mr-2"></i>
+                    <span class="text-sm font-medium text-gray-800">熏眠旗舰店</span>
+                </div>
+                <span class="text-xs text-primary font-medium">待付款</span>
+            </div>
+
+            <!-- 商品信息 -->
+            <div class="flex py-3 border-t border-b border-gray-100">
+                <div class="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden mr-3 flex-shrink-0">
+                    <img src="https://ts1.tc.mm.bing.net/th/id/OIP-C.pel4Db4mOFcQWqxmLxy1qAAAAA?w=236&c=11" alt="柠檬精油" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1">
+                    <h4 class="text-sm font-medium text-gray-800">柠檬精油 10ml</h4>
+                    <p class="text-xs text-gray-500 mt-1">规格：10ml</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm font-medium text-gray-800">¥100</p>
+                    <p class="text-xs text-gray-500 mt-1">x2</p>
+                </div>
+            </div>
+
+            <!-- 订单底部 -->
+            <div class="flex justify-between items-center pt-3">
+                <span class="text-xs text-gray-500">共 2 件商品 合计：<span class="text-primary font-bold">¥200</span></span>
+                <div class="flex gap-2">
+                    <button class="px-4 py-1.5 border border-gray-300 text-gray-600 text-xs rounded-full hover:bg-gray-50">修改地址</button>
+                    <button class="px-4 py-1.5 bg-yellow-400 text-white text-xs rounded-full hover:bg-opacity-90" onclick="payOrder(200)">支付</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 订单 2 - 待付款 -->
+        <div class="order-card bg-white rounded-2xl p-4 mb-4 card-shadow" data-status="pending">
+            <!-- 订单头部 -->
+            <div class="flex justify-between items-center mb-3">
+                <div class="flex items-center">
+                    <i class="fa fa-shopping-bag text-primary mr-2"></i>
+                    <span class="text-sm font-medium text-gray-800">熏眠旗舰店</span>
+                </div>
+                <span class="text-xs text-primary font-medium">待付款</span>
+            </div>
+
+            <!-- 商品信息 -->
+            <div class="flex py-3 border-t border-b border-gray-100">
+                <div class="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden mr-3 flex-shrink-0">
+                    <img src="https://ts1.tc.mm.bing.net/th/id/OIP-C.pel4Db4mOFcQWqxmLxy1qAAAAA?w=236&c=11" alt="柠檬精油" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1">
+                    <h4 class="text-sm font-medium text-gray-800">柠檬精油 10ml</h4>
+                    <p class="text-xs text-gray-500 mt-1">规格：10ml</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm font-medium text-gray-800">¥100</p>
+                    <p class="text-xs text-gray-500 mt-1">x2</p>
+                </div>
+            </div>
+
+            <!-- 订单底部 -->
+            <div class="flex justify-between items-center pt-3">
+                <span class="text-xs text-gray-500">共 2 件商品 合计：<span class="text-primary font-bold">¥200</span></span>
+                <div class="flex gap-2">
+                    <button class="px-4 py-1.5 border border-gray-300 text-gray-600 text-xs rounded-full hover:bg-gray-50">修改地址</button>
+                    <button class="px-4 py-1.5 bg-yellow-400 text-white text-xs rounded-full hover:bg-opacity-90" onclick="payOrder(200)">支付</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 订单 3 - 待付款 -->
+        <div class="order-card bg-white rounded-2xl p-4 mb-4 card-shadow" data-status="pending">
+            <!-- 订单头部 -->
+            <div class="flex justify-between items-center mb-3">
+                <div class="flex items-center">
+                    <i class="fa fa-shopping-bag text-primary mr-2"></i>
+                    <span class="text-sm font-medium text-gray-800">熏眠旗舰店</span>
+                </div>
+                <span class="text-xs text-primary font-medium">待付款</span>
+            </div>
+
+            <!-- 商品信息 -->
+            <div class="flex py-3 border-t border-b border-gray-100">
+                <div class="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden mr-3 flex-shrink-0">
+                    <img src="https://ts1.tc.mm.bing.net/th/id/OIP-C.pel4Db4mOFcQWqxmLxy1qAAAAA?w=236&c=11" alt="柠檬精油" class="w-full h-full object-cover">
+                </div>
+                <div class="flex-1">
+                    <h4 class="text-sm font-medium text-gray-800">柠檬精油 10ml</h4>
+                    <p class="text-xs text-gray-500 mt-1">规格：10ml</p>
+                </div>
+                <div class="text-right">
+                    <p class="text-sm font-medium text-gray-800">¥100</p>
+                    <p class="text-xs text-gray-500 mt-1">x2</p>
+                </div>
+            </div>
+
+            <!-- 订单底部 -->
+            <div class="flex justify-between items-center pt-3">
+                <span class="text-xs text-gray-500">共 2 件商品 合计：<span class="text-primary font-bold">¥200</span></span>
+                <div class="flex gap-2">
+                    <button class="px-4 py-1.5 border border-gray-300 text-gray-600 text-xs rounded-full hover:bg-gray-50">修改地址</button>
+                    <button class="px-4 py-1.5 bg-yellow-400 text-white text-xs rounded-full hover:bg-opacity-90" onclick="payOrder(200)">支付</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部结算栏 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 flex items-center justify-between" style="box-shadow: 0 -2px 10px rgba(0,0,0,0.1);">
+        <div class="flex items-center">
+            <label class="flex items-center mr-4">
+                <input type="checkbox" id="selectAll" class="w-4 h-4 text-primary rounded focus:ring-primary" checked onchange="toggleSelectAll()">
+                <span class="ml-2 text-sm text-gray-600">全选</span>
+            </label>
+            <div>
+                <span class="text-sm text-gray-600">合计：</span>
+                <span class="text-lg font-bold text-accent" id="totalPrice">¥600</span>
+            </div>
+        </div>
+        <button class="bg-accent text-white px-8 py-2 rounded-full text-sm font-medium hover:bg-opacity-90 transition-all" onclick="checkout()">
+            结算
+        </button>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md nav-shadow z-40" style="bottom: 60px;">
+        <div class="flex justify-around py-3">
+            <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-primary transition-colors group">
+                <i class="fa fa-th-large text-xl group-hover:scale-110 transition-transform"></i>
+                <span class="text-xs mt-1">首页</span>
+            </a>
+            <a href="health.html" class="flex flex-col items-center text-gray-400 hover:text-primary transition-colors group">
+                <i class="fa fa-heart text-xl group-hover:scale-110 transition-transform"></i>
+                <span class="text-xs mt-1">健康中心</span>
+            </a>
+            <a href="profile.html" class="flex flex-col items-center text-primary relative">
+                <span class="absolute -top-1 w-6 h-1 bg-primary rounded-full"></span>
+                <i class="fa fa-user text-xl"></i>
+                <span class="text-xs mt-1 font-medium">我的</span>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        // 页面加载时设置返回按钮
+        document.getElementById('backBtn').addEventListener('click', function() {
+            const source = localStorage.getItem('cartSource') || 'profile.html';
+            window.location.href = source;
+            // 清除记录，避免下次错误返回错误的页面
+            localStorage.removeItem('cartSource');
+        });
+
+        // 标签切换
+        function switchTab(btn, status) {
+            // 更新标签状态
+            document.querySelectorAll('.status-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            btn.classList.add('active');
+
+            // 筛选订单
+            const orders = document.querySelectorAll('.order-card');
+            orders.forEach(order => {
+                if (status === 'all' || order.dataset.status === status) {
+                    order.style.display = 'block';
+                } else {
+                    order.style.display = 'none';
+                }
+            });
+        }
+
+        // 搜索功能
+        document.querySelector('input[placeholder="搜索订单..."]').addEventListener('input', function(e) {
+            const searchText = e.target.value.toLowerCase();
+            const orders = document.querySelectorAll('.order-card');
+            
+            orders.forEach(order => {
+                const title = order.querySelector('h4').textContent.toLowerCase();
+                if (title.includes(searchText)) {
+                    order.style.display = 'block';
+                } else {
+                    order.style.display = 'none';
+                }
+            });
+        });
+
+        // 全选功能
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.order-card input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+            });
+            updateTotalPrice();
+        }
+
+        // 更新总价
+        function updateTotalPrice() {
+            let totalPrice = 0;
+            const checkboxes = document.querySelectorAll('.order-card input[type="checkbox"]');
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const orderCard = checkbox.closest('.order-card');
+                    const priceText = orderCard.querySelector('.text-primary.font-bold').textContent;
+                    const price = parseFloat(priceText.replace('¥', ''));
+                    totalPrice += price;
+                }
+            });
+            document.getElementById('totalPrice').textContent = '¥' + totalPrice.toFixed(2);
+        }
+
+        // 结算
+        function checkout() {
+            const totalPrice = document.getElementById('totalPrice').textContent;
+            alert('跳转到结算页面，总计：' + totalPrice);
+        }
+
+        // 支付单个订单
+        function payOrder(amount) {
+            alert('支付订单，金额：¥' + amount);
+        }
+    </script>
+</body>
+</html>

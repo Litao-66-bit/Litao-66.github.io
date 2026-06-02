@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>灯光调理建议 - 熏眠听澜台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#f3e5f5',
+                        dark: '#4a148c',
+                        amber: {
+                            50: '#fffbeb',
+                            100: '#fef3c7',
+                            200: '#fde68a',
+                            300: '#fcd34d',
+                            400: '#fbbf24',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309',
+                            800: '#92400e',
+                            900: '#78350f'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .card-shadow {
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+            .nav-shadow {
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+            .gradient-header {
+                background: linear-gradient(135deg, #d4a5fa 0%, #c495f5 50%, #b385f0 100%);
+            }
+            .light-mode-card {
+                transition: all 0.3s ease;
+            }
+            .light-mode-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
+            }
+            .slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 100%;
+                height: 8px;
+                border-radius: 4px;
+                outline: none;
+            }
+            .slider-thumb::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                background: white;
+                cursor: pointer;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+                border: 2px solid #e5e7eb;
+            }
+            .slider-thumb::-moz-range-thumb {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                background: white;
+                cursor: pointer;
+                box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+                border: 2px solid #e5e7eb;
+            }
+        }
+    </style>
+</head>
+<body class="bg-purple-50 text-gray-800" style="padding-bottom: 80px;">
+    <!-- 顶部导航栏 -->
+    <header class="gradient-header text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex items-center">
+            <button id="backButton" class="mr-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors">
+                <i class="fa fa-arrow-left text-xl"></i>
+            </button>
+            <h1 class="text-xl font-bold tracking-wide">灯光调理建议</h1>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container mx-auto px-4 py-4 max-w-2xl">
+        <!-- 三种灯光模式卡片 -->
+        <div class="grid grid-cols-3 gap-3 mb-4">
+            <!-- 助眠模式 -->
+            <div class="light-mode-card bg-white rounded-2xl overflow-hidden card-shadow cursor-pointer">
+                <div class="relative h-28 bg-gradient-to-b from-amber-100 to-amber-200 flex items-center justify-center">
+                    <div class="w-16 h-20 bg-gradient-to-t from-amber-400 to-amber-200 rounded-full opacity-80" 
+                         style="filter: blur(8px); box-shadow: 0 0 40px 20px rgba(251, 191, 36, 0.6);"></div>
+                    <div class="absolute bottom-0 left-0 right-0 bg-white/90 p-2">
+                        <h3 class="text-xs font-bold text-gray-800 text-center">助眠模式</h3>
+                        <p class="text-xs text-gray-500 text-center mt-0.5">暖黄光，低亮度</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 放松模式 -->
+            <div class="light-mode-card bg-white rounded-2xl overflow-hidden card-shadow cursor-pointer">
+                <div class="relative h-28 bg-gradient-to-b from-blue-100 to-blue-200 flex items-center justify-center">
+                    <div class="w-16 h-20 bg-gradient-to-t from-blue-400 to-blue-200 rounded-full opacity-80" 
+                         style="filter: blur(8px); box-shadow: 0 0 40px 20px rgba(59, 130, 246, 0.6);"></div>
+                    <div class="absolute bottom-0 left-0 right-0 bg-white/90 p-2">
+                        <h3 class="text-xs font-bold text-gray-800 text-center">放松模式</h3>
+                        <p class="text-xs text-gray-500 text-center mt-0.5">柔蓝光，渐变呼吸</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 专注模式 -->
+            <div class="light-mode-card bg-white rounded-2xl overflow-hidden card-shadow cursor-pointer">
+                <div class="relative h-28 bg-gradient-to-b from-purple-100 to-purple-200 flex items-center justify-center">
+                    <div class="w-16 h-20 bg-gradient-to-t from-purple-400 to-purple-200 rounded-full opacity-80" 
+                         style="filter: blur(8px); box-shadow: 0 0 40px 20px rgba(139, 92, 246, 0.6);"></div>
+                    <div class="absolute bottom-0 left-0 right-0 bg-white/90 p-2">
+                        <h3 class="text-xs font-bold text-gray-800 text-center">专注模式</h3>
+                        <p class="text-xs text-gray-500 text-center mt-0.5">冷白光，稳定常亮</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 灯光与情绪匹配说明卡片 1 -->
+        <div class="bg-white rounded-2xl overflow-hidden card-shadow mb-4">
+            <div class="p-5">
+                <h3 class="text-base font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fa fa-lightbulb-o text-amber-500 mr-2"></i>
+                    灯光与情绪匹配说明
+                </h3>
+                <div class="space-y-3">
+                    <!-- 焦虑情绪 -->
+                    <div class="flex items-center p-3 bg-amber-50 rounded-xl">
+                        <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fa fa-sun-o text-amber-500"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-bold text-gray-800">焦虑情绪</h4>
+                            <p class="text-xs text-gray-600 mt-0.5">推荐暖橙渐变灯光</p>
+                        </div>
+                    </div>
+
+                    <!-- 烦躁情绪 -->
+                    <div class="flex items-center p-3 bg-blue-50 rounded-xl">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fa fa-moon-o text-blue-500"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-bold text-gray-800">烦躁情绪</h4>
+                            <p class="text-xs text-gray-600 mt-0.5">推荐冷蓝柔和灯光</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 灯光与情绪匹配说明卡片 2（带滑块） -->
+        <div class="bg-white rounded-2xl overflow-hidden card-shadow mb-4">
+            <div class="p-5">
+                <h3 class="text-base font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fa fa-sliders text-purple-500 mr-2"></i>
+                    灯光与情绪匹配说明
+                </h3>
+                <div class="space-y-4">
+                    <!-- 情绪说明 -->
+                    <div class="space-y-2">
+                        <div class="flex items-center">
+                            <span class="w-2 h-2 rounded-full bg-amber-400 mr-2"></span>
+                            <span class="text-sm text-gray-700"><strong>焦虑情绪：</strong>推荐暖橙渐变灯光</span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-2 h-2 rounded-full bg-blue-400 mr-2"></span>
+                            <span class="text-sm text-gray-700"><strong>烦躁情绪：</strong>推荐冷蓝柔和灯光</span>
+                        </div>
+                    </div>
+
+                    <!-- 亮度滑块 -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium text-gray-700">亮度</span>
+                        </div>
+                        <div class="relative">
+                            <input type="range" min="0" max="100" value="70" class="slider-thumb" id="brightnessSlider"
+                                   style="background: linear-gradient(to right, #fef3c7 0%, #fbbf24 70%, #e5e7eb 70%, #e5e7eb 100%);">
+                        </div>
+                    </div>
+
+                    <!-- 色温滑块 -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium text-gray-700">色温</span>
+                        </div>
+                        <div class="relative">
+                            <input type="range" min="0" max="100" value="50" class="slider-thumb" id="colorTempSlider"
+                                   style="background: linear-gradient(to right, #60a5fa 0%, #fbbf24 50%, #a78bfa 100%);">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部导航栏 -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md nav-shadow z-40">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-around py-3">
+                <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600 transition-colors group">
+                    <i class="fa fa-th-large text-xl group-hover:scale-110 transition-transform"></i>
+                    <span class="text-xs mt-1">首页</span>
+                </a>
+                <a href="health.html" class="flex flex-col items-center text-purple-600 relative">
+                    <span class="absolute -top-1 w-6 h-1 bg-purple-600 rounded-full"></span>
+                    <i class="fa fa-heart text-xl"></i>
+                    <span class="text-xs mt-1 font-medium">健康中心</span>
+                </a>
+                <a href="profile.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600 transition-colors group">
+                    <i class="fa fa-user text-xl group-hover:scale-110 transition-transform"></i>
+                    <span class="text-xs mt-1">我的</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.history.back();
+        });
+
+        // 亮度滑块交互
+        const brightnessSlider = document.getElementById('brightnessSlider');
+        brightnessSlider.addEventListener('input', function() {
+            const value = this.value;
+            this.style.background = `linear-gradient(to right, #fef3c7 0%, #fbbf24 ${value}%, #e5e7eb ${value}%, #e5e7eb 100%)`;
+        });
+
+        // 色温滑块交互
+        const colorTempSlider = document.getElementById('colorTempSlider');
+        colorTempSlider.addEventListener('input', function() {
+            const value = this.value;
+            // 从左到右：蓝色 -> 黄色 -> 紫色
+            this.style.background = `linear-gradient(to right, #60a5fa 0%, #fbbf24 ${value}%, #a78bfa 100%)`;
+        });
+    </script>
+</body>
+</html>

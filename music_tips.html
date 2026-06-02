@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音乐助眠建议 - 熏眠听澜台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#f3e5f5',
+                        dark: '#4a148c',
+                        blue: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e40af',
+                            900: '#1e3a8a'
+                        },
+                        green: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            200: '#bbf7d0',
+                            300: '#86efac',
+                            400: '#4ade80',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            800: '#166534',
+                            900: '#14532d'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .card-shadow {
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+            .nav-shadow {
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+            .gradient-header {
+                background: linear-gradient(135deg, #b39ddb 0%, #9575cd 50%, #7e57c2 100%);
+            }
+            .slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 100%;
+                height: 6px;
+                border-radius: 3px;
+                background: #e5e7eb;
+                outline: none;
+            }
+            .slider-thumb::-webkit-slider-thumb {
+                -webkit-appearance: none;
+                appearance: none;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: #7c3aed;
+                cursor: pointer;
+                box-shadow: 0 2px 4px rgba(124, 58, 237, 0.3);
+            }
+            .slider-thumb::-moz-range-thumb {
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                background: #7c3aed;
+                cursor: pointer;
+                border: none;
+                box-shadow: 0 2px 4px rgba(124, 58, 237, 0.3);
+            }
+        }
+    </style>
+</head>
+<body class="bg-blue-50 text-gray-800" style="padding-bottom: 80px;">
+    <!-- 顶部导航栏 -->
+    <header class="gradient-header text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex items-center">
+            <button id="backButton" class="mr-4 w-8 h-8 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <h1 class="text-xl font-bold tracking-wide">音乐助眠建议</h1>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container mx-auto px-4 py-4 max-w-2xl">
+        <!-- 音乐分类卡片 -->
+        <div class="bg-white rounded-2xl overflow-hidden card-shadow mb-4">
+            <div class="p-5">
+                <h3 class="text-base font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fa fa-music text-purple-500 mr-2"></i>
+                    音乐分类
+                </h3>
+                <div class="space-y-3">
+                    <!-- 白噪音/自然声 -->
+                    <div class="flex items-center p-3 bg-blue-50 rounded-xl hover:bg-blue-100 transition-colors cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fa fa-cloud text-blue-500 text-lg"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-bold text-gray-800">白噪音/自然声</h4>
+                            <p class="text-xs text-gray-500 mt-0.5">海浪、雨声、风声、溪流等自然之声</p>
+                        </div>
+                        <i class="fa fa-chevron-right text-gray-400 text-xs"></i>
+                    </div>
+
+                    <!-- 古典轻音乐 -->
+                    <div class="flex items-center p-3 bg-purple-50 rounded-xl hover:bg-purple-100 transition-colors cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fa fa-music text-purple-500 text-lg"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-bold text-gray-800">古典轻音乐</h4>
+                            <p class="text-xs text-gray-500 mt-0.5">舒缓钢琴、弦乐、轻音乐等</p>
+                        </div>
+                        <i class="fa fa-chevron-right text-gray-400 text-xs"></i>
+                    </div>
+
+                    <!-- 中药五行疗愈音乐 -->
+                    <div class="flex items-center p-3 bg-green-50 rounded-xl hover:bg-green-100 transition-colors cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fa fa-leaf text-green-500 text-lg"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-bold text-gray-800">中药五行疗愈音乐</h4>
+                            <p class="text-xs text-gray-500 mt-0.5">结合中医五行理论的疗愈音乐</p>
+                        </div>
+                        <i class="fa fa-chevron-right text-gray-400 text-xs"></i>
+                    </div>
+
+                    <!-- 自选音乐库 -->
+                    <div class="flex items-center p-3 bg-orange-50 rounded-xl hover:bg-orange-100 transition-colors cursor-pointer">
+                        <div class="w-12 h-12 rounded-full bg-orange-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fa fa-heart text-orange-500 text-lg"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-bold text-gray-800">自选音乐库</h4>
+                            <p class="text-xs text-gray-500 mt-0.5">从本地音乐或歌单中自选</p>
+                        </div>
+                        <i class="fa fa-chevron-right text-gray-400 text-xs"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 情绪匹配推荐卡片 -->
+        <div class="bg-white rounded-2xl overflow-hidden card-shadow mb-4">
+            <div class="p-5">
+                <h3 class="text-base font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fa fa-heart-o text-purple-500 mr-2"></i>
+                    情绪匹配推荐
+                </h3>
+                <div class="space-y-3">
+                    <!-- 焦虑/失眠 -->
+                    <div class="flex items-center p-4 bg-purple-50 rounded-xl">
+                        <div class="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fa fa-frown-o text-purple-500 text-lg"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-bold text-gray-800">焦虑/失眠</h4>
+                            <p class="text-xs text-gray-600 mt-1">推荐 60-80 BPM 舒缓节奏</p>
+                            <p class="text-xs text-gray-500 mt-0.5">帮助放松身心，促进入睡</p>
+                        </div>
+                        <div class="w-12 h-12 flex items-center justify-center">
+                            <svg viewBox="0 0 100 40" class="w-full h-full">
+                                <path d="M0,20 Q10,10 20,20 T40,20 T60,20 T80,20 T100,20" 
+                                      fill="none" stroke="#a78bfa" stroke-width="2" 
+                                      class="animate-pulse"/>
+                            </svg>
+                        </div>
+                    </div>
+
+                    <!-- 压力大 -->
+                    <div class="flex items-center p-4 bg-green-50 rounded-xl">
+                        <div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center mr-3 flex-shrink-0">
+                            <i class="fa fa-cloud text-green-500 text-lg"></i>
+                        </div>
+                        <div class="flex-1">
+                            <h4 class="text-sm font-bold text-gray-800">压力大</h4>
+                            <p class="text-xs text-gray-600 mt-1">推荐自然白噪音 + 低频背景音</p>
+                            <p class="text-xs text-gray-500 mt-0.5">缓解紧张情绪，稳定身心状态</p>
+                        </div>
+                        <div class="w-12 h-12 flex items-center justify-center">
+                            <svg viewBox="0 0 100 40" class="w-full h-full">
+                                <rect x="5" y="15" width="4" height="10" fill="#86efac" class="animate-pulse"/>
+                                <rect x="12" y="10" width="4" height="20" fill="#86efac" class="animate-pulse" style="animation-delay: 0.1s"/>
+                                <rect x="19" y="12" width="4" height="16" fill="#86efac" class="animate-pulse" style="animation-delay: 0.2s"/>
+                                <rect x="26" y="8" width="4" height="24" fill="#86efac" class="animate-pulse" style="animation-delay: 0.3s"/>
+                                <rect x="33" y="14" width="4" height="12" fill="#86efac" class="animate-pulse" style="animation-delay: 0.4s"/>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 播放设置建议卡片 -->
+        <div class="bg-white rounded-2xl overflow-hidden card-shadow mb-4">
+            <div class="p-5">
+                <h3 class="text-base font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fa fa-sliders text-purple-500 mr-2"></i>
+                    播放设置建议
+                </h3>
+                <div class="space-y-6">
+                    <!-- 播放时长 -->
+                    <div>
+                        <div class="flex items-center mb-3">
+                            <i class="fa fa-clock-o text-purple-500 mr-2"></i>
+                            <span class="text-sm font-medium text-gray-700">播放时长</span>
+                        </div>
+                        <div class="relative">
+                            <input type="range" min="0" max="100" value="60" class="slider-thumb" id="durationSlider">
+                            <div class="flex justify-between mt-2 text-xs text-gray-500">
+                                <span>30分钟</span>
+                                <span class="text-purple-600 font-medium">60分钟（推荐）</span>
+                                <span>90分钟</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 音量建议 -->
+                    <div>
+                        <div class="flex items-center mb-3">
+                            <i class="fa fa-volume-up text-purple-500 mr-2"></i>
+                            <span class="text-sm font-medium text-gray-700">音量建议</span>
+                        </div>
+                        <div class="relative">
+                            <input type="range" min="0" max="100" value="50" class="slider-thumb" id="volumeSlider">
+                            <div class="flex justify-between mt-2 text-xs text-gray-500">
+                                <span>30%</span>
+                                <span class="text-purple-600 font-medium">50%（推荐）</span>
+                                <span>80%</span>
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-3">
+                            建议音量以能听到但不突兀为宜，避免过大音量影响睡眠质量。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 同步播放按钮 -->
+        <div class="mb-4">
+            <button class="w-full bg-gradient-to-r from-blue-500 to-blue-600 text-white py-4 rounded-xl text-base font-bold hover:shadow-lg hover:shadow-blue-500/30 transition-all flex items-center justify-center gap-3">
+                <i class="fa fa-bluetooth text-xl"></i>
+                同步到设备播放
+            </button>
+            <p class="text-xs text-gray-400 text-center mt-2">
+                <i class="fa fa-info-circle mr-1"></i>
+                连接设备后将自动同步以上播放设置
+            </p>
+        </div>
+    </main>
+
+    <!-- 底部导航栏 -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md nav-shadow z-40">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-around py-3">
+                <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600 transition-colors group">
+                    <i class="fa fa-th-large text-xl group-hover:scale-110 transition-transform"></i>
+                    <span class="text-xs mt-1">首页</span>
+                </a>
+                <a href="health.html" class="flex flex-col items-center text-purple-600 relative">
+                    <span class="absolute -top-1 w-6 h-1 bg-purple-600 rounded-full"></span>
+                    <i class="fa fa-heart text-xl"></i>
+                    <span class="text-xs mt-1 font-medium">健康中心</span>
+                </a>
+                <a href="profile.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600 transition-colors group">
+                    <i class="fa fa-user text-xl group-hover:scale-110 transition-transform"></i>
+                    <span class="text-xs mt-1">我的</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.history.back();
+        });
+
+        // 滑块交互
+        const durationSlider = document.getElementById('durationSlider');
+        const volumeSlider = document.getElementById('volumeSlider');
+
+        durationSlider.addEventListener('input', function() {
+            const value = this.value;
+            if (value < 33) {
+                this.style.background = 'linear-gradient(to right, #7c3aed 0%, #7c3aed ' + value + '%, #e5e7eb ' + value + '%, #e5e7eb 100%)';
+            } else if (value < 66) {
+                this.style.background = 'linear-gradient(to right, #7c3aed 0%, #7c3aed ' + value + '%, #e5e7eb ' + value + '%, #e5e7eb 100%)';
+            } else {
+                this.style.background = 'linear-gradient(to right, #7c3aed 0%, #7c3aed ' + value + '%, #e5e7eb ' + value + '%, #e5e7eb 100%)';
+            }
+        });
+
+        volumeSlider.addEventListener('input', function() {
+            const value = this.value;
+            this.style.background = 'linear-gradient(to right, #7c3aed 0%, #7c3aed ' + value + '%, #e5e7eb ' + value + '%, #e5e7eb 100%)';
+        });
+
+        // 初始化滑块样式
+        durationSlider.style.background = 'linear-gradient(to right, #7c3aed 0%, #7c3aed 60%, #e5e7eb 60%, #e5e7eb 100%)';
+        volumeSlider.style.background = 'linear-gradient(to right, #7c3aed 0%, #7c3aed 50%, #e5e7eb 50%, #e5e7eb 100%)';
+    </script>
+</body>
+</html>

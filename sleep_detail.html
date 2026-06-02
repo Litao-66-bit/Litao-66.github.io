@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>熏眠听澜台 - 睡眠详情</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#fce4ec',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .card-shadow {
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .gradient-bg {
+                background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-4 py-2 rounded-full shadow-md hover:bg-opacity-90 transition-all;
+            }
+            .btn-secondary {
+                @apply bg-secondary text-primary px-4 py-2 rounded-full shadow-md hover:bg-opacity-90 transition-all;
+            }
+            .nav-item {
+                @apply flex flex-col items-center justify-center text-xs;
+            }
+            .nav-item.active {
+                @apply text-primary;
+            }
+            .nav-item:not(.active) {
+                @apply text-gray-500;
+            }
+            .tab-item {
+                @apply py-2 px-4 text-sm rounded-full;
+            }
+            .tab-item.active {
+                @apply bg-primary text-white;
+            }
+            .tab-item:not(.active) {
+                @apply bg-light text-primary;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 顶部导航栏 -->
+    <div class="bg-primary text-white p-4 shadow-md">
+        <div class="flex items-center">
+            <button onclick="window.location.href='data_statistics.html'" class="mr-4">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <h1 class="text-lg font-medium flex-grow text-center">睡眠</h1>
+            <div class="w-4"></div> <!-- 占位，保持标题居中 -->
+        </div>
+    </div>
+
+    <!-- 时间筛选标签 -->
+    <div class="p-4 overflow-x-auto whitespace-nowrap">
+        <div class="inline-flex space-x-2">
+            <button class="tab-item active" data-period="day">今日</button>
+            <button class="tab-item" data-period="week">本周</button>
+        </div>
+    </div>
+
+    <!-- 睡眠统计 -->
+    <div class="bg-white rounded-xl mx-4 mt-2 shadow-sm overflow-hidden p-4">
+        <h3 class="text-lg font-medium text-gray-800 mb-3">睡眠统计</h3>
+        
+        <div class="grid grid-cols-3 gap-4 mb-4">
+            <div class="text-center">
+                <p class="text-xs text-gray-500 mb-1">近7日睡眠</p>
+                <p class="text-2xl font-bold text-primary">7.2<span class="text-sm">小时</span></p>
+            </div>
+            <div class="text-center">
+                <p class="text-xs text-gray-500 mb-1">深睡</p>
+                <p class="text-2xl font-bold text-primary">50<span class="text-sm">%</span></p>
+            </div>
+            <div class="text-center">
+                <p class="text-xs text-gray-500 mb-1">浅睡</p>
+                <p class="text-2xl font-bold text-primary">86<span class="text-sm">%</span></p>
+            </div>
+        </div>
+        
+        <!-- 睡眠质量环形图 -->
+        <div class="flex justify-center mb-4">
+            <div class="relative w-32 h-32">
+                <canvas id="sleepQualityChart"></canvas>
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <p class="text-3xl font-bold text-primary">82</p>
+                    <p class="text-xs text-gray-500">睡眠质量良好</p>
+                </div>
+            </div>
+        </div>
+        
+        <p class="text-sm text-gray-600 text-center mb-2">
+            睡眠质量良好，睡眠时长达标，深睡比例较高，睡眠质量较好。
+        </p>
+        <p class="text-xs text-gray-500 text-center">
+            建议继续保持规律作息
+        </p>
+    </div>
+
+    <!-- 近7天睡眠时长 -->
+    <div class="bg-white rounded-xl mx-4 mt-4 shadow-sm overflow-hidden p-4">
+        <div class="flex justify-between items-center mb-3">
+            <h3 class="text-lg font-medium text-gray-800">近7天睡眠时长</h3>
+            <span class="text-xs text-primary">增长0.5小时</span>
+        </div>
+        
+        <div class="h-40">
+            <canvas id="sleepDurationChart"></canvas>
+        </div>
+        
+        <div class="flex justify-between mt-2">
+            <span class="text-xs text-gray-500">周一</span>
+            <span class="text-xs text-gray-500">周二</span>
+            <span class="text-xs text-gray-500">周三</span>
+            <span class="text-xs text-gray-500">周四</span>
+            <span class="text-xs text-gray-500">周五</span>
+            <span class="text-xs text-gray-500">周六</span>
+            <span class="text-xs text-gray-500">周日</span>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 rounded-t-3xl shadow-lg">
+        <div class="flex justify-around py-3">
+            <a href="index.html" class="nav-item">
+                <i class="fa fa-home text-xl mb-1"></i>
+                <span>首页</span>
+            </a>
+            <a href="health.html" class="nav-item active">
+                <i class="fa fa-heartbeat text-xl mb-1"></i>
+                <span>健康中心</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <i class="fa fa-user text-xl mb-1"></i>
+                <span>我的</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 页面加载时执行
+        window.onload = function() {
+            // 初始化睡眠质量环形图
+            const qualityCtx = document.getElementById('sleepQualityChart').getContext('2d');
+            const sleepQualityChart = new Chart(qualityCtx, {
+                type: 'doughnut',
+                data: {
+                    datasets: [{
+                        data: [82, 18],
+                        backgroundColor: ['#f8bbd0', '#e1bee7'],
+                        borderWidth: 0,
+                        cutout: '75%'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        },
+                        tooltip: {
+                            enabled: false
+                        }
+                    }
+                }
+            });
+
+            // 初始化睡眠时长柱状图
+            const durationCtx = document.getElementById('sleepDurationChart').getContext('2d');
+            const sleepDurationChart = new Chart(durationCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['周一', '周二', '周三', '周四', '周五', '周六', '周日'],
+                    datasets: [{
+                        label: '睡眠时长',
+                        data: [6.5, 7.0, 7.5, 6.8, 7.2, 7.8, 7.2],
+                        backgroundColor: '#f8bbd0',
+                        borderRadius: 4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 10,
+                            grid: {
+                                display: false
+                            },
+                            ticks: {
+                                callback: function(value) {
+                                    return value + 'h';
+                                }
+                            }
+                        },
+                        x: {
+                            display: false
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        };
+
+        // 标签切换
+        document.querySelectorAll('.tab-item').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab-item').forEach(t => {
+                    t.classList.remove('active');
+                });
+                this.classList.add('active');
+                
+                const period = this.getAttribute('data-period');
+                // 这里可以根据时间段更新数据
+                console.log('切换到时间段:', period);
+            });
+        });
+    </script>
+</body>
+</html>

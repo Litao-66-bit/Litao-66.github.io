@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>心情互动 - 熏眠听澜台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#f3e5f5',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-shadow {
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+            .nav-shadow {
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+            .bubble {
+                position: relative;
+                border-radius: 1rem;
+            }
+            .bubble::after {
+                content: '';
+                position: absolute;
+                bottom: 0;
+                left: 50%;
+                width: 0;
+                height: 0;
+                border: 10px solid transparent;
+                border-top-color: white;
+                border-bottom: 0;
+                margin-left: -10px;
+                margin-bottom: -10px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <button id="backButton" class="mr-4 text-gray-600">
+                    <i class="fa fa-arrow-left text-xl"></i>
+                </button>
+                <h1 class="text-xl font-bold text-primary">心情互动</h1>
+            </div>
+            <div class="flex items-center">
+                <button class="text-gray-600">
+                    <i class="fa fa-share-alt text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- 心情选择 -->
+        <section class="mb-8 text-center">
+            <h2 class="text-lg font-bold mb-2">你现在的心情是？</h2>
+            <div class="flex justify-center space-x-4 my-4">
+                <button class="text-4xl" onclick="selectMood('happy')">😊</button>
+                <button class="text-4xl" onclick="selectMood('sad')">😢</button>
+                <button class="text-4xl" onclick="selectMood('angry')">😠</button>
+                <button class="text-4xl" onclick="selectMood('surprised')">😲</button>
+            </div>
+            <p id="moodText" class="text-primary font-semibold">点击上方表情来选择你的心情</p>
+        </section>
+
+        <!-- 互动功能区 -->
+        <section class="mb-8">
+            <div class="grid grid-cols-2 gap-4">
+                <!-- 音乐匹配 -->
+                <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                    <div class="p-4 text-center">
+                        <div class="w-16 h-16 bg-light rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fa fa-music text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="font-semibold mb-2">音乐匹配</h3>
+                        <p class="text-xs text-gray-500 mb-3">为你推荐匹配心情的音乐</p>
+                        <button class="w-full bg-primary text-white py-2 rounded-full text-sm" onclick="matchMusic()">开始匹配</button>
+                    </div>
+                </div>
+                <!-- 文字解压 -->
+                <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                    <div class="p-4 text-center">
+                        <div class="w-16 h-16 bg-light rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fa fa-pencil text-2xl text-primary"></i>
+                        </div>
+                        <h3 class="font-semibold mb-2">文字解压</h3>
+                        <p class="text-xs text-gray-500 mb-3">写下你的烦恼，释放压力</p>
+                        <button class="w-full bg-primary text-white py-2 rounded-full text-sm" onclick="window.location.href='emotion_message.html'">开始书写</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 心情对话 -->
+        <section class="mb-8">
+            <h2 class="text-lg font-bold mb-4">心情对话</h2>
+            <div class="bg-white rounded-lg p-4 card-shadow h-64 overflow-y-auto mb-4" id="chatContainer">
+                <!-- 对话内容将在这里动态生成 -->
+                <div class="flex justify-start mb-4">
+                    <div class="bg-light rounded-lg py-2 px-4 max-w-xs">
+                        <p class="text-sm">你好！今天感觉怎么样？</p>
+                    </div>
+                </div>
+            </div>
+            <div class="flex">
+                <input type="text" id="messageInput" class="flex-1 border rounded-l-full px-4 py-2 text-sm" placeholder="和我聊聊天吧...">
+                <button class="bg-primary text-white px-4 py-2 rounded-r-full" onclick="sendMessage()">发送</button>
+            </div>
+        </section>
+
+        <!-- 为你推荐 -->
+        <section>
+            <h2 class="text-lg font-bold mb-4">为你推荐</h2>
+            <div class="bg-white rounded-lg p-4 card-shadow">
+                <div class="flex items-center mb-3">
+                    <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/462fca7cacd94766a2fdec6831b47642.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&rcl=202605301956100AAB18F8CE0A2116763A&rrcfp=8a172a1a&x-expires=1780746970&x-signature=DOIqF8HXfRiTMK7KAwCBAcyX800%3D" 
+                         alt="推荐活动" class="w-full h-40 object-contain mb-3">
+                </div>
+                <h3 class="font-semibold mb-2">参与“我的心情故事”征集</h3>
+                <p class="text-sm text-gray-600 mb-3">分享你的心情故事，赢取精美礼品。</p>
+                <button class="w-full bg-light text-primary py-2 rounded-full text-sm">立即参与</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- 底部导航栏 -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white nav-shadow z-40">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-around py-3">
+                <a href="index.html" class="flex flex-col items-center text-gray-600">
+                    <i class="fa fa-home text-xl"></i>
+                    <span class="text-xs mt-1">首页</span>
+                </a>
+                <a href="health.html" class="flex flex-col items-center text-primary">
+                    <i class="fa fa-heartbeat text-xl"></i>
+                    <span class="text-xs mt-1">健康中心</span>
+                </a>
+                <a href="profile.html" class="flex flex-col items-center text-gray-600">
+                    <i class="fa fa-user text-xl"></i>
+                    <span class="text-xs mt-1">我的</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 返回按钮功能
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.history.back();
+        });
+
+        // 选择心情
+        function selectMood(mood) {
+            const moodTexts = {
+                'happy': '开心',
+                'sad': '难过',
+                'angry': '生气',
+                'surprised': '惊讶'
+            };
+            document.getElementById('moodText').textContent = `你现在的心情是：${moodTexts[mood]}`;
+            
+            // 模拟心情记录
+            localStorage.setItem('currentMood', mood);
+            
+            // 根据心情给出不同的回复
+            const moodResponses = {
+                'happy': '很高兴你今天心情不错！保持这份愉悦哦~',
+                'sad': '别难过，一切都会好起来的。如果你愿意，可以和我聊聊。',
+                'angry': '消消气，深呼吸。生气对身体不好，我们来想想怎么解决问题。',
+                'surprised': '哇，发生了什么有趣的事情吗？可以分享给我哦~'
+            };
+            addMessage('bot', moodResponses[mood]);
+        }
+
+        // 音乐匹配
+        function matchMusic() {
+            const currentMood = localStorage.getItem('currentMood') || 'happy';
+            const musicRecommendations = {
+                'happy': '推荐你听《Happy》，让快乐加倍！',
+                'sad': '推荐你听《Someone Like You》，释放你的情绪。',
+                'angry': '推荐你听《Breath of the Wild》，让心灵平静下来。',
+                'surprised': '推荐你听《What a Wonderful World》，感受世界的美好。'
+            };
+            alert(musicRecommendations[currentMood]);
+            // 这里可以跳转到音乐播放页面
+            window.location.href='music_control.html';
+        }
+
+        // 发送消息
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            // 添加用户消息
+            addMessage('user', message);
+            input.value = '';
+
+            // 模拟AI回复
+            setTimeout(() => {
+                const botResponses = [
+                    '我理解你的感受。',
+                    '这听起来很有趣！',
+                    '谢谢你的分享。',
+                    '你说得对。',
+                    '我在这里支持你。'
+                ];
+                const randomResponse = botResponses[Math.floor(Math.random() * botResponses.length)];
+                addMessage('bot', randomResponse);
+            }, 1000);
+        }
+
+        // 添加消息到聊天框
+        function addMessage(sender, text) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `flex mb-4 ${sender === 'user' ? 'justify-end' : 'justify-start'}`;
+            messageDiv.innerHTML = `
+                <div class="${sender === 'user' ? 'bg-primary text-white' : 'bg-light'} rounded-lg py-2 px-4 max-w-xs">
+                    <p class="text-sm">${text}</p>
+                </div>
+            `;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        // 允许按Enter发送消息
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendMessage();
+            }
+        });
+    </script>
+</body>
+</html>

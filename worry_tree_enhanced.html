@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>解忧树洞 - 熏眠听澜台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#f3e5f5',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-shadow {
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+            .nav-shadow {
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+            .paper-bg {
+                background-color: #fff9e6;
+                background-image:  linear-gradient(#e0e0e0 0.5px, transparent 0.5px), linear-gradient(to right, #e0e0e0 0.5px, #fff9e6 0.5px);
+                background-size: 10px 10px;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- 顶部导航栏 -->
+    <header class="bg-primary text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <button id="backButton" class="mr-4">
+                    <i class="fa fa-arrow-left text-xl"></i>
+                </button>
+                <h1 class="text-xl font-bold">解忧树洞</h1>
+            </div>
+            <div class="flex items-center">
+                <button class="text-white mr-4 flex items-center" onclick="showWorryForm()">
+                    <i class="fa fa-plus-circle text-xl mr-1"></i>
+                    <span>发布</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- 功能卡片区 -->
+        <section class="mb-8">
+            <div class="grid grid-cols-2 gap-4">
+                <!-- 我要咨询 -->
+                <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                    <div class="relative">
+                        <img src="https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/0564b174ad9e489c8bce10c1c26db776.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&rcl=2026053021262977BDEFFD770D6CBCCC4C&rrcfp=8a172a1a&x-expires=1780752389&x-signature=jmScmq0VSBo8YhfAYaJT%2FFgf0zM%3D" 
+                             alt="我要咨询" class="w-full h-32 object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end">
+                            <h3 class="text-white font-semibold p-3">我要咨询</h3>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <p class="text-sm text-gray-600">向专业人士倾诉你的烦恼。</p>
+                        <button class="w-full mt-2 bg-primary text-white py-2 rounded-full text-sm" onclick="showConsultationForm()">立即咨询</button>
+                    </div>
+                </div>
+                <!-- 解忧博物馆 -->
+                <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                    <div class="relative">
+                        <img src="https://p3-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/5a1c42e4340c48f28922ec30b5984f4e.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&rcl=2026053021262977BDEFFD770D6CBCCC4C&rrcfp=8a172a1a&x-expires=1780752389&x-signature=rH93uvgLeGjtd1bJSmE27J0HrYg%3D" 
+                             alt="解忧博物馆" class="w-full h-32 object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent flex items-end">
+                            <h3 class="text-white font-semibold p-3">解忧博物馆</h3>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <p class="text-sm text-gray-600">看看其他人的烦恼与解答。</p>
+                        <button class="w-full mt-2 bg-primary text-white py-2 rounded-full text-sm" onclick="showMuseum()">逛一逛</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 荣誉榜 -->
+        <section class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold">荣誉榜</h2>
+                <a href="honor_board.html" class="text-sm text-primary">查看全部</a>
+            </div>
+            <div class="bg-white rounded-lg p-4 card-shadow">
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
+                        <span class="text-yellow-500 font-bold">1</span>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-semibold">暖心小天使</h4>
+                        <p class="text-xs text-gray-500">已帮助 135 人解忧</p>
+                    </div>
+                    <img src="https://img95.699pic.com/element/40024/0023.png_860.png" alt="荣誉榜" class="w-16 h-16 object-contain">
+                </div>
+                <div class="flex items-center">
+                    <div class="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center mr-3">
+                        <span class="text-gray-500 font-bold">2</span>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-semibold">智慧星</h4>
+                        <p class="text-xs text-gray-500">已帮助 98 人解忧</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 最近的烦恼 -->
+        <section>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold">最近的烦恼</h2>
+                <a href="#" class="text-sm text-primary" onclick="showHistoryLetters()">历史信件</a>
+            </div>
+            
+            <div id="worryList">
+                <!-- 烦恼列表将在这里动态生成 -->
+            </div>
+        </section>
+    </main>
+
+    <!-- 发布烦恼的弹窗 -->
+    <div id="worryModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white rounded-lg w-11/12 max-w-md">
+            <div class="p-4 border-b flex justify-between items-center">
+                <h3 class="text-lg font-bold">诉说你的烦恼</h3>
+                <button onclick="closeWorryModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fa fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="p-4">
+                <textarea id="worryContent" class="w-full h-32 p-3 border rounded-lg text-sm paper-bg" placeholder="在这里写下你的烦恼..."></textarea>
+                <div class="flex justify-between mt-3">
+                    <label class="flex items-center text-sm">
+                        <input type="checkbox" id="anonymousCheckbox" class="mr-2">
+                        匿名发布
+                    </label>
+                    <button class="bg-primary text-white px-4 py-2 rounded-full text-sm" onclick="submitWorry()">发布</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white nav-shadow z-40">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-around py-3">
+                <a href="index.html" class="flex flex-col items-center text-gray-600">
+                    <i class="fa fa-home text-xl"></i>
+                    <span class="text-xs mt-1">首页</span>
+                </a>
+                <a href="health.html" class="flex flex-col items-center text-primary">
+                    <i class="fa fa-heartbeat text-xl"></i>
+                    <span class="text-xs mt-1">健康中心</span>
+                </a>
+                <a href="profile.html" class="flex flex-col items-center text-gray-600">
+                    <i class="fa fa-user text-xl"></i>
+                    <span class="text-xs mt-1">我的</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 返回按钮功能
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.history.back();
+        });
+
+        // 模拟数据
+        let worries = [
+            {
+                id: 1,
+                content: '最近工作压力好大，感觉快要被压垮了...',
+                author: '匿名用户',
+                date: '2小时前',
+                likes: 15,
+                comments: 5
+            },
+            {
+                id: 2,
+                content: '和家人吵架了，心情很糟糕，该怎么和解？',
+                author: '小A',
+                date: '5小时前',
+                likes: 23,
+                comments: 8
+            }
+        ];
+
+        // 渲染烦恼列表
+        function renderWorryList() {
+            const worryList = document.getElementById('worryList');
+            worryList.innerHTML = '';
+            worries.forEach(worry => {
+                const worryElement = document.createElement('div');
+                worryElement.className = 'bg-white rounded-lg p-4 card-shadow mb-4';
+                worryElement.innerHTML = `
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-sm font-medium">${worry.author}</span>
+                        <span class="text-xs text-gray-500">${worry.date}</span>
+                    </div>
+                    <p class="text-sm text-gray-600 mb-3">${worry.content}</p>
+                    <div class="flex justify-between items-center text-sm text-gray-500">
+                        <button class="flex items-center" onclick="likeWorry(${worry.id})"><i class="fa fa-heart-o mr-1"></i> <span>${worry.likes}</span></button>
+                        <button class="flex items-center" onclick="showComments(${worry.id})"><i class="fa fa-comment-o mr-1"></i> <span>${worry.comments}</span></button>
+                        <button class="flex items-center"><i class="fa fa-share-alt mr-1"></i> 分享</button>
+                    </div>
+                `;
+                worryList.appendChild(worryElement);
+            });
+        }
+
+        // 显示发布烦恼弹窗
+        function showWorryForm() {
+            document.getElementById('worryModal').classList.remove('hidden');
+        }
+
+        // 关闭发布烦恼弹窗
+        function closeWorryModal() {
+            document.getElementById('worryModal').classList.add('hidden');
+        }
+
+        // 提交烦恼
+        function submitWorry() {
+            const content = document.getElementById('worryContent').value.trim();
+            if (!content) {
+                alert('请输入烦恼内容');
+                return;
+            }
+
+            const anonymous = document.getElementById('anonymousCheckbox').checked;
+            const newWorry = {
+                id: Date.now(),
+                content: content,
+                author: anonymous ? '匿名用户' : '我',
+                date: '刚刚',
+                likes: 0,
+                comments: 0
+            };
+
+            worries.unshift(newWorry);
+            renderWorryList();
+            document.getElementById('worryModal').classList.add('hidden');
+            document.getElementById('worryContent').value = '';
+            document.getElementById('anonymousCheckbox').checked = false;
+        }
+
+        // 点赞
+        function likeWorry(id) {
+            const worry = worries.find(w => w.id === id);
+            if (worry) {
+                worry.likes++;
+                renderWorryList();
+            }
+        }
+
+        // 显示评论
+        function showComments(id) {
+            alert('评论功能开发中...');
+        }
+
+        // 查看历史信件
+        function showHistoryLetters() {
+            alert('正在加载历史信件...');
+            // 这里可以跳转到历史信件页面
+        }
+
+        // 显示咨询表单
+        function showConsultationForm() {
+            window.location.href = 'consultation.html';
+        }
+
+        // 逛解忧博物馆
+        function showMuseum() {
+            window.location.href = 'museum.html';
+        }
+
+        // 页面加载时渲染列表
+        window.onload = renderWorryList;
+    </script>
+</body>
+</html>

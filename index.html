@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>首页 - 熏眠听澜台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#fce4ec',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .card-shadow {
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            }
+            .nav-shadow {
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+            .gradient-header {
+                background: linear-gradient(135deg, #b39ddb 0%, #9575cd 50%, #7e57c2 100%);
+            }
+            .control-card {
+                @apply bg-white rounded-2xl p-4 shadow-sm transition-all duration-300 cursor-pointer;
+            }
+            .control-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 24px -8px rgba(156, 39, 176, 0.15);
+            }
+            .mode-btn {
+                @apply flex flex-col items-center justify-center py-3 px-2 rounded-xl text-sm font-medium transition-all duration-200;
+            }
+            .mode-btn.active {
+                @apply bg-primary text-white shadow-md shadow-purple-300;
+            }
+            .mode-btn:not(.active) {
+                @apply bg-purple-50 text-gray-600 hover:bg-purple-100;
+            }
+            .status-dot {
+                @apply w-2 h-2 rounded-full inline-block;
+            }
+            .preset-card {
+                @apply bg-white rounded-2xl p-4 shadow-sm transition-all duration-300 cursor-pointer;
+            }
+            .preset-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 24px -8px rgba(156, 39, 176, 0.15);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans" style="padding-bottom: 75px;">
+    <!-- 顶部导航栏 -->
+    <header class="gradient-header text-white shadow-md">
+        <div class="px-5 pt-4 pb-6">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h1 class="text-xl font-bold tracking-wide">熏眠听澜台</h1>
+                    <p class="text-xs text-white/80 mt-0.5">欢迎回来，小柔</p>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors relative">
+                        <i class="fa fa-bell-o"></i>
+                        <span class="absolute -top-0.5 -right-0.5 w-3.5 h-3.5 bg-red-400 text-white text-[8px] rounded-full flex items-center justify-center font-bold">3</span>
+                    </button>
+                    <button onclick="window.location.href='profile.html'" class="w-9 h-9 rounded-full bg-white/20 flex items-center justify-center hover:bg-white/30 transition-colors">
+                        <i class="fa fa-user"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- 设备状态 -->
+            <div class="bg-white/15 backdrop-blur-sm rounded-2xl p-4">
+                <div class="flex justify-between items-center mb-3">
+                    <span class="text-sm font-medium flex items-center">
+                        <span class="status-dot bg-green-400 mr-2 animate-pulse"></span>
+                        设备已连接
+                    </span>
+                    <button onclick="window.location.href='fog_control.html'" class="text-xs bg-white/25 rounded-full px-3 py-1 hover:bg-white/35 transition-colors">
+                        去控制
+                    </button>
+                </div>
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="text-center">
+                        <i class="fa fa-cloud text-lg mb-1 block"></i>
+                        <p class="text-[10px] text-white/70">雾化</p>
+                        <p class="text-xs font-bold">3档</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fa fa-sun-o text-lg mb-1 block"></i>
+                        <p class="text-[10px] text-white/70">灯光</p>
+                        <p class="text-xs font-bold">暖黄</p>
+                    </div>
+                    <div class="text-center">
+                        <i class="fa fa-music text-lg mb-1 block"></i>
+                        <p class="text-[10px] text-white/70">音乐</p>
+                        <p class="text-xs font-bold">雨声</p>
+                    </div>
+                </div>
+                <div class="mt-3 pt-3 border-t border-white/20 flex justify-between items-center">
+                    <span class="text-xs text-white/70">精油余量</span>
+                    <div class="flex items-center">
+                        <div class="w-24 h-1.5 bg-white/20 rounded-full overflow-hidden mr-2">
+                            <div class="h-full bg-amber-400 rounded-full" style="width: 35%;"></div>
+                        </div>
+                        <span class="text-xs font-bold">35%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- 快速控制 -->
+    <div class="px-4 -mt-4">
+        <div class="grid grid-cols-3 gap-3">
+            <div class="control-card text-center" onclick="window.location.href='fog_control.html'">
+                <div class="w-10 h-10 mx-auto mb-2 rounded-full bg-purple-100 flex items-center justify-center">
+                    <i class="fa fa-cloud text-primary"></i>
+                </div>
+                <p class="text-xs font-medium text-gray-700">雾化调节</p>
+                <p class="text-[10px] text-gray-400 mt-0.5">3档运行</p>
+            </div>
+            <div class="control-card text-center" onclick="window.location.href='light_control.html'">
+                <div class="w-10 h-10 mx-auto mb-2 rounded-full bg-amber-100 flex items-center justify-center">
+                    <i class="fa fa-lightbulb-o text-amber-500"></i>
+                </div>
+                <p class="text-xs font-medium text-gray-700">灯光调节</p>
+                <p class="text-[10px] text-gray-400 mt-0.5">暖黄模式</p>
+            </div>
+            <div class="control-card text-center" onclick="window.location.href='music_control.html'">
+                <div class="w-10 h-10 mx-auto mb-2 rounded-full bg-blue-100 flex items-center justify-center">
+                    <i class="fa fa-music text-blue-500"></i>
+                </div>
+                <p class="text-xs font-medium text-gray-700">音乐调节</p>
+                <p class="text-[10px] text-gray-400 mt-0.5">雨声播放</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 预设模式 -->
+    <div class="px-4 mt-4">
+        <h3 class="text-base font-bold text-gray-800 mb-3 flex items-center">
+            <i class="fa fa-magic text-primary mr-2"></i>
+            预设模式
+        </h3>
+        <div class="grid grid-cols-3 gap-3">
+            <div class="preset-card" onclick="applyPresetMode('sleep', this)">
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto mb-2 rounded-2xl bg-indigo-100 flex items-center justify-center">
+                        <i class="fa fa-moon-o text-indigo-500 text-xl"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-800">助眠模式</p>
+                    <p class="text-[10px] text-gray-400 mt-0.5">30分钟</p>
+                </div>
+            </div>
+            <div class="preset-card" onclick="applyPresetMode('meditation', this)">
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto mb-2 rounded-2xl bg-purple-100 flex items-center justify-center">
+                        <i class="fa fa-diamond text-primary text-xl"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-800">冥想模式</p>
+                    <p class="text-[10px] text-gray-400 mt-0.5">20分钟</p>
+                </div>
+            </div>
+            <div class="preset-card" onclick="applyPresetMode('relax', this)">
+                <div class="text-center">
+                    <div class="w-12 h-12 mx-auto mb-2 rounded-2xl bg-teal-100 flex items-center justify-center">
+                        <i class="fa fa-leaf text-teal-500 text-xl"></i>
+                    </div>
+                    <p class="text-sm font-medium text-gray-800">减压模式</p>
+                    <p class="text-[10px] text-gray-400 mt-0.5">25分钟</p>
+                </div>
+            </div>
+        </div>
+        <button onclick="window.location.href='custom_mode.html'" class="w-full mt-3 py-3 rounded-2xl border-2 border-dashed border-purple-200 text-primary text-sm font-medium hover:bg-purple-50 transition-colors flex items-center justify-center">
+            <i class="fa fa-plus-circle mr-2"></i>
+            自定义模式
+        </button>
+    </div>
+
+    <!-- 健康提示 -->
+    <div class="px-4 mt-4">
+        <div class="bg-gradient-to-r from-amber-50 to-orange-50 rounded-2xl p-4 border border-amber-100">
+            <div class="flex items-start">
+                <div class="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0 mr-3">
+                    <i class="fa fa-exclamation-triangle text-amber-500"></i>
+                </div>
+                <div>
+                    <h4 class="text-sm font-bold text-amber-800">健康提示</h4>
+                    <p class="text-xs text-amber-700 mt-1 leading-relaxed">
+                        精油使用不当，可能对身体造成不适。建议每次使用不超过30分钟，孕妇及过敏体质者请在医生指导下使用。
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 精油商城 -->
+    <div class="px-4 mt-4 mb-4">
+        <div class="flex justify-between items-center mb-3">
+            <h3 class="text-base font-bold text-gray-800 flex items-center">
+                <i class="fa fa-shopping-bag text-primary mr-2"></i>
+                精油商城
+            </h3>
+            <a href="shop.html" class="text-xs text-primary flex items-center">
+                查看全部 <i class="fa fa-angle-right ml-1"></i>
+            </a>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+            <div class="bg-white rounded-2xl p-4 shadow-sm cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1" onclick="window.location.href='shop.html'">
+                <div class="w-full h-20 bg-gradient-to-br from-purple-100 to-pink-100 rounded-xl flex items-center justify-center mb-3">
+                    <img src="https://ts1.tc.mm.bing.net/th/id/OIP-C.pel4Db4mOFcQWqxmLxy1qAAAAA?w=236&c=11" alt="精油" class="w-14 h-14 object-contain">
+                </div>
+                <p class="text-sm font-medium text-gray-800">精油专区</p>
+                <p class="text-[10px] text-gray-400 mt-0.5">薰衣草、柠檬等多种选择</p>
+                <p class="text-sm font-bold text-primary mt-2">¥29.9起</p>
+            </div>
+            <div class="bg-white rounded-2xl p-4 shadow-sm cursor-pointer transition-all duration-300 hover:shadow-lg hover:-translate-y-1" onclick="window.location.href='shop.html?category=accessories'">
+                <div class="w-full h-20 bg-gradient-to-br from-blue-100 to-cyan-100 rounded-xl flex items-center justify-center mb-3">
+                    <img src="https://img.alicdn.com/imgextra/i4/2206676560238/O1CN01UFLNnW1N4Gc6q80xP_!!2206676560238.jpg" alt="配件" class="w-14 h-14 object-contain">
+                </div>
+                <p class="text-sm font-medium text-gray-800">配件耗材</p>
+                <p class="text-[10px] text-gray-400 mt-0.5">雾化片、导管等配件</p>
+                <p class="text-sm font-bold text-primary mt-2">¥9.9起</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md nav-shadow z-40">
+        <div class="flex justify-around py-3">
+            <a href="index.html" class="flex flex-col items-center text-primary relative">
+                <span class="absolute -top-1 w-6 h-1 bg-primary rounded-full"></span>
+                <i class="fa fa-home text-xl"></i>
+                <span class="text-xs mt-1 font-medium">首页</span>
+            </a>
+            <a href="health.html" class="flex flex-col items-center text-gray-400 hover:text-primary transition-colors group">
+                <i class="fa fa-heartbeat text-xl group-hover:scale-110 transition-transform"></i>
+                <span class="text-xs mt-1">健康中心</span>
+            </a>
+            <a href="profile.html" class="flex flex-col items-center text-gray-400 hover:text-primary transition-colors group">
+                <i class="fa fa-user text-xl group-hover:scale-110 transition-transform"></i>
+                <span class="text-xs mt-1">我的</span>
+            </a>
+        </div>
+    </footer>
+
+    <script>
+        function applyPresetMode(mode, btn) {
+            const modeSettings = {
+                'sleep': { fog: 2, light: '暖黄', music: '雨声', duration: 30, label: '助眠模式' },
+                'meditation': { fog: 1, light: '蓝光', music: '冥想音乐', duration: 20, label: '冥想模式' },
+                'relax': { fog: 3, light: '渐变', music: '轻音乐', duration: 25, label: '减压模式' }
+            };
+
+            const settings = modeSettings[mode];
+
+            // 清除其他选中状态
+            document.querySelectorAll('.preset-card').forEach(card => {
+                card.style.border = 'none';
+            });
+            btn.style.border = '2px solid #9c27b0';
+
+            // 更新设备状态显示
+            document.querySelectorAll('.grid-cols-3.gap-3 .text-center')[0].querySelector('.text-xs.font-bold').textContent = settings.fog + '档';
+            document.querySelectorAll('.grid-cols-3.gap-3 .text-center')[1].querySelector('.text-xs.font-bold').textContent = settings.light;
+            document.querySelectorAll('.grid-cols-3.gap-3 .text-center')[2].querySelector('.text-xs.font-bold').textContent = settings.music;
+
+            // 显示提示
+            const tip = document.createElement('div');
+            tip.className = 'fixed top-4 left-1/2 -translate-x-1/2 bg-primary text-white text-sm px-6 py-3 rounded-2xl shadow-lg z-50 animate-bounce';
+            tip.textContent = '✅ 已应用' + settings.label + '（' + settings.duration + '分钟）';
+            document.body.appendChild(tip);
+            setTimeout(() => tip.remove(), 2000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情绪社区 - 熏眠听澜台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#f3e5f5',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-shadow {
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+            .nav-shadow {
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+            .gradient-bg {
+                background: linear-gradient(135deg, #f3e5f5 0%, #f8bbd0 100%);
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- 顶部导航栏 -->
+    <header class="gradient-bg shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <button id="backButton" class="mr-4 text-gray-600">
+                    <i class="fa fa-arrow-left text-xl"></i>
+                </button>
+                <h1 class="text-xl font-bold text-primary">互动</h1>
+            </div>
+            <div class="flex items-center">
+                <button class="text-gray-600 mr-4" onclick="window.location.href='data_statistics.html'">
+                    <i class="fa fa-bar-chart text-xl"></i>
+                </button>
+                <button class="text-gray-600">
+                    <i class="fa fa-plus-circle text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- 快捷功能入口 -->
+        <section class="mb-8">
+            <div class="grid grid-cols-2 gap-4">
+                <!-- 心情打卡 -->
+                <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                    <div class="p-4 text-center">
+                        <div class="w-16 h-16 bg-light rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fa fa-smile-o text-3xl text-primary"></i>
+                        </div>
+                        <h3 class="font-semibold">心情打卡</h3>
+                        <p class="text-xs text-gray-500 mt-1">记录每日心情</p>
+                    </div>
+                </div>
+                <!-- 情绪日记 -->
+                <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                    <div class="p-4 text-center">
+                        <div class="w-16 h-16 bg-light rounded-full flex items-center justify-center mx-auto mb-2">
+                            <i class="fa fa-book text-3xl text-primary"></i>
+                        </div>
+                        <h3 class="font-semibold">情绪日记</h3>
+                        <p class="text-xs text-gray-500 mt-1">书写内心世界</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 热门话题 -->
+        <section class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold">热门话题</h2>
+                <a href="#" class="text-sm text-primary">更多 <i class="fa fa-angle-right"></i></a>
+            </div>
+            <div class="bg-white rounded-lg p-4 card-shadow">
+                <div class="flex flex-wrap gap-3">
+                    <span class="bg-light text-primary px-4 py-2 rounded-full text-sm"># 今日心情</span>
+                    <span class="bg-light text-primary px-4 py-2 rounded-full text-sm"># 助眠好物</span>
+                    <span class="bg-light text-primary px-4 py-2 rounded-full text-sm"># 减压小技巧</span>
+                    <span class="bg-light text-primary px-4 py-2 rounded-full text-sm"># 睡眠仪式感</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 社区精选 -->
+        <section>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold">社区精选</h2>
+                <a href="#" class="text-sm text-primary">换一批 <i class="fa fa-refresh"></i></a>
+            </div>
+            
+            <!-- 精选内容卡片 -->
+            <div class="bg-white rounded-lg p-4 card-shadow mb-4">
+                <div class="flex items-center mb-3">
+                    <img src="https://p26-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/4249c903a9bd44b1806aa048614281f6.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&rcl=20260530200030090EA86973D890D4F92D&rrcfp=8a172a1a&x-expires=1780747230&x-signature=idm%2BVeY%2BiyA1O1%2Bm1GNAU9D9TdU%3D" 
+                         alt="社区精选" class="w-full h-48 object-contain mb-3">
+                </div>
+                <h3 class="font-semibold text-lg mb-2">【睡眠分享】我的助眠小妙招</h3>
+                <p class="text-gray-600 text-sm mb-3">每天睡前使用熏眠听澜台15分钟，配合冥想音乐，睡眠质量真的提高了！推荐给大家~</p>
+                <div class="flex justify-between items-center text-sm text-gray-500">
+                    <span><i class="fa fa-user mr-1"></i> 睡眠达人</span>
+                    <span><i class="fa fa-clock-o mr-1"></i> 3小时前</span>
+                    <div class="flex items-center">
+                        <button class="flex items-center mr-4"><i class="fa fa-heart-o mr-1"></i> 156</button>
+                        <button class="flex items-center"><i class="fa fa-comment-o mr-1"></i> 42</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-lg p-4 card-shadow">
+                <div class="flex items-start mb-3">
+                    <div class="w-10 h-10 rounded-full bg-light flex items-center justify-center mr-3 flex-shrink-0">
+                        <span class="font-bold text-primary">眠</span>
+                    </div>
+                    <div class="flex-1">
+                        <h4 class="font-semibold">眠眠小助手</h4>
+                        <p class="text-gray-600 text-sm mt-1">今晚的月亮很圆，适合听一些舒缓的音乐。点击下方链接，获取今晚的睡眠音乐推荐。</p>
+                        <a href="music_control.html" class="text-primary text-sm mt-2 inline-block">查看详情 <i class="fa fa-angle-right"></i></a>
+                    </div>
+                </div>
+                <div class="flex justify-between items-center text-sm text-gray-500">
+                    <span><i class="fa fa-clock-o mr-1"></i> 昨天</span>
+                    <div class="flex items-center">
+                        <button class="flex items-center mr-4"><i class="fa fa-heart-o mr-1"></i> 289</button>
+                        <button class="flex items-center"><i class="fa fa-comment-o mr-1"></i> 78</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 底部导航栏 -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white nav-shadow z-40">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-around py-3">
+                <a href="index.html" class="flex flex-col items-center text-gray-600">
+                    <i class="fa fa-home text-xl"></i>
+                    <span class="text-xs mt-1">首页</span>
+                </a>
+                <a href="health.html" class="flex flex-col items-center text-primary">
+                    <i class="fa fa-heartbeat text-xl"></i>
+                    <span class="text-xs mt-1">健康中心</span>
+                </a>
+                <a href="profile.html" class="flex flex-col items-center text-gray-600">
+                    <i class="fa fa-user text-xl"></i>
+                    <span class="text-xs mt-1">我的</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 返回按钮功能
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.history.back();
+        });
+
+        // 快捷功能点击事件
+        document.querySelectorAll('.grid-cols-2 > div').forEach(card => {
+            card.addEventListener('click', function() {
+                const title = this.querySelector('h3').textContent;
+                if (title === '心情打卡') {
+                    window.location.href='mood_interaction.html';
+                } else if (title === '情绪日记') {
+                    window.location.href='mood_diary.html';
+                }
+            });
+        });
+
+        // 热门话题点击事件
+        document.querySelectorAll('.bg-light.text-primary').forEach(tag => {
+            tag.addEventListener('click', function() {
+                const tagText = this.textContent;
+                alert(`进入${tagText}话题`);
+            });
+        });
+
+        // 点赞和评论功能
+        document.querySelectorAll('button.flex.items-center').forEach(button => {
+            button.addEventListener('click', function() {
+                const icon = this.querySelector('i');
+                const text = this.textContent.trim();
+                if (icon.classList.contains('fa-heart-o')) {
+                    icon.classList.remove('fa-heart-o');
+                    icon.classList.add('fa-heart');
+                    this.classList.add('text-accent');
+                    const count = parseInt(text);
+                    this.innerHTML = `<i class="fa fa-heart mr-1"></i> ${count + 1}`;
+                } else if (icon.classList.contains('fa-comment-o')) {
+                    alert('打开评论区');
+                }
+            });
+        });
+
+        // 换一批功能
+        document.querySelector('a.text-sm.text-primary').addEventListener('click', function(e) {
+            e.preventDefault();
+            alert('正在加载新内容...');
+        });
+    </script>
+</body>
+</html>

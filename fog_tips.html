@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>中医药雾化建议 - 熏眠听澜台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#f3e5f5',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .card-shadow {
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            }
+            .nav-shadow {
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+            .gradient-header {
+                background: linear-gradient(135deg, #d4a5fa 0%, #c495f5 50%, #b385f0 100%);
+            }
+            .herb-card {
+                transition: all 0.3s ease;
+            }
+            .herb-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
+            }
+        }
+    </style>
+</head>
+<body class="bg-purple-50 text-gray-800" style="padding-bottom: 80px;">
+    <!-- 顶部导航栏 -->
+    <header class="gradient-header text-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+            <button id="backButton" class="mr-4 w-10 h-10 flex items-center justify-center rounded-full bg-white/20 hover:bg-white/30 transition-colors">
+                <i class="fa fa-arrow-left text-xl"></i>
+            </button>
+            <div class="bg-white/20 backdrop-blur-sm px-4 py-1.5 rounded-full">
+                <h1 class="text-base font-bold tracking-wide">中医药雾化建议</h1>
+            </div>
+            <div class="w-10"></div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container mx-auto px-4 py-4 max-w-2xl">
+        <!-- 三种配方卡片 -->
+        <div class="bg-white rounded-2xl overflow-hidden card-shadow mb-4">
+            <div class="p-5">
+                <div class="grid grid-cols-3 gap-3">
+                    <!-- 助眠安神配方 -->
+                    <div class="herb-card bg-gradient-to-b from-purple-50 to-white rounded-xl p-3 text-center cursor-pointer">
+                        <div class="w-16 h-16 mx-auto mb-2 rounded-lg bg-purple-100 flex items-center justify-center">
+                            <div class="text-2xl">🌿</div>
+                        </div>
+                        <h3 class="text-xs font-bold text-gray-800">助眠安神配方</h3>
+                        <p class="text-xs text-gray-500 mt-1">薰衣草+酸枣仁</p>
+                    </div>
+
+                    <!-- 舒缓焦虑配方 -->
+                    <div class="herb-card bg-gradient-to-b from-amber-50 to-white rounded-xl p-3 text-center cursor-pointer">
+                        <div class="w-16 h-16 mx-auto mb-2 rounded-lg bg-amber-100 flex items-center justify-center">
+                            <div class="text-2xl">🌼</div>
+                        </div>
+                        <h3 class="text-xs font-bold text-gray-800">舒缓焦虑配方</h3>
+                        <p class="text-xs text-gray-500 mt-1">佛手柑+檀香</p>
+                    </div>
+
+                    <!-- 通鼻润目配方 -->
+                    <div class="herb-card bg-gradient-to-b from-green-50 to-white rounded-xl p-3 text-center cursor-pointer">
+                        <div class="w-16 h-16 mx-auto mb-2 rounded-lg bg-green-100 flex items-center justify-center">
+                            <div class="text-2xl">🍃</div>
+                        </div>
+                        <h3 class="text-xs font-bold text-gray-800">通鼻润目配方</h3>
+                        <p class="text-xs text-gray-500 mt-1">薄荷+苍耳子</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 雾化使用指南卡片 -->
+        <div class="bg-white rounded-2xl overflow-hidden card-shadow mb-4">
+            <div class="p-5">
+                <h3 class="text-base font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fa fa-book text-purple-500 mr-2"></i>
+                    雾化使用指南
+                </h3>
+                <div class="space-y-4">
+                    <!-- 最佳使用时间 -->
+                    <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center mr-3">
+                                <i class="fa fa-clock-o text-purple-500 text-sm"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-700">最佳使用时间</span>
+                        </div>
+                        <span class="text-sm text-gray-600">睡前 30 分钟</span>
+                    </div>
+
+                    <!-- 单次建议时长 -->
+                    <div class="flex items-center justify-between py-3 border-b border-gray-100">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center mr-3">
+                                <i class="fa fa-hourglass-o text-blue-500 text-sm"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-700">单次建议时长</span>
+                        </div>
+                        <span class="text-sm text-gray-600">15-30 分钟</span>
+                    </div>
+
+                    <!-- 浓度调节建议 -->
+                    <div class="flex items-center justify-between py-3">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center mr-3">
+                                <i class="fa fa-tint text-green-500 text-sm"></i>
+                            </div>
+                            <span class="text-sm font-medium text-gray-700">浓度调节建议</span>
+                        </div>
+                        <span class="text-sm text-gray-600">低档位起用</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 安全提示卡片 -->
+        <div class="bg-white rounded-2xl overflow-hidden card-shadow">
+            <div class="p-5">
+                <h3 class="text-base font-bold text-gray-800 mb-4 flex items-center">
+                    <i class="fa fa-shield text-red-500 mr-2"></i>
+                    安全提示
+                </h3>
+                <div class="space-y-3">
+                    <!-- 过敏体质提示 -->
+                    <div class="flex items-start p-3 bg-red-50 rounded-xl">
+                        <div class="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">
+                            <span class="text-red-500 text-xs font-bold">!</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-700">
+                                <span class="font-medium text-red-600">过敏体质：</span>
+                                先做皮肤测试
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- 孕妇/婴幼儿提示 -->
+                    <div class="flex items-start p-3 bg-orange-50 rounded-xl">
+                        <div class="w-6 h-6 rounded-full bg-orange-100 flex items-center justify-center mr-3 flex-shrink-0 mt-0.5">
+                            <span class="text-orange-500 text-xs font-bold">!</span>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-700">
+                                <span class="font-medium text-orange-600">孕妇/婴幼儿：</span>
+                                慎用提示
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部导航栏 -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md nav-shadow z-40">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-around py-3">
+                <a href="index.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600 transition-colors group">
+                    <i class="fa fa-th-large text-xl group-hover:scale-110 transition-transform"></i>
+                    <span class="text-xs mt-1">首页</span>
+                </a>
+                <a href="health.html" class="flex flex-col items-center text-purple-600 relative">
+                    <span class="absolute -top-1 w-6 h-1 bg-purple-600 rounded-full"></span>
+                    <i class="fa fa-heart text-xl"></i>
+                    <span class="text-xs mt-1 font-medium">健康中心</span>
+                </a>
+                <a href="profile.html" class="flex flex-col items-center text-gray-400 hover:text-purple-600 transition-colors group">
+                    <i class="fa fa-user text-xl group-hover:scale-110 transition-transform"></i>
+                    <span class="text-xs mt-1">我的</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.history.back();
+        });
+    </script>
+</body>
+</html>

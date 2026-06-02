@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>熏眠听澜台 - 舒缓方案</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#fce4ec',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .card-shadow {
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .gradient-bg {
+                background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-4 py-2 rounded-full shadow-md hover:bg-opacity-90 transition-all;
+            }
+            .btn-secondary {
+                @apply bg-secondary text-primary px-4 py-2 rounded-full shadow-md hover:bg-opacity-90 transition-all;
+            }
+            .nav-item {
+                @apply flex flex-col items-center justify-center text-xs;
+            }
+            .nav-item.active {
+                @apply text-primary;
+            }
+            .nav-item:not(.active) {
+                @apply text-gray-500;
+            }
+            .plan-card {
+                @apply bg-white rounded-xl p-4 mb-4 shadow-sm relative overflow-hidden;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 顶部导航栏 -->
+    <div class="bg-primary text-white p-4 shadow-md">
+        <div class="flex items-center">
+            <button onclick="window.location.href='health.html'" class="mr-4">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <h1 class="text-lg font-medium flex-grow text-center">舒缓方案</h1>
+            <div class="flex items-center">
+                <button>
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 方案列表 -->
+    <div class="p-4">
+        <!-- 方案卡片 -->
+        <div class="plan-card">
+            <div class="absolute top-3 right-3 bg-accent text-white text-xs px-2 py-1 rounded-full">
+                新品
+            </div>
+            <h3 class="text-lg font-medium text-gray-800 mb-2">柠檬精油助眠舒缓方案</h3>
+            <div class="space-y-2 mb-3">
+                <p class="text-sm text-gray-600"><span class="font-medium">精油配比：</span>柠檬精油3滴+甜橙精油2滴+佛手柑精油1滴</p>
+                <p class="text-sm text-gray-600"><span class="font-medium">适用人群：</span>情绪烦躁、难以静心、睡眠质量差</p>
+                <p class="text-sm text-gray-600"><span class="font-medium">使用时间：</span>睡前30分钟</p>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-500">30分钟/次</span>
+                <button class="bg-primary text-white text-xs px-4 py-1 rounded-full">立即使用</button>
+            </div>
+        </div>
+
+        <!-- 方案卡片 -->
+        <div class="plan-card">
+            <div class="absolute top-3 right-3 bg-accent text-white text-xs px-2 py-1 rounded-full">
+                热销
+            </div>
+            <h3 class="text-lg font-medium text-gray-800 mb-2">薰衣草助眠方案</h3>
+            <div class="space-y-2 mb-3">
+                <p class="text-sm text-gray-600"><span class="font-medium">精油配比：</span>薰衣草精油3滴+佛手柑精油2滴+洋甘菊精油1滴</p>
+                <p class="text-sm text-gray-600"><span class="font-medium">适用人群：</span>入睡困难、多梦易醒、焦虑紧张</p>
+                <p class="text-sm text-gray-600"><span class="font-medium">使用时间：</span>睡前60分钟</p>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-500">60分钟/次</span>
+                <button class="bg-primary text-white text-xs px-4 py-1 rounded-full">立即使用</button>
+            </div>
+        </div>
+
+        <!-- 方案卡片 -->
+        <div class="plan-card">
+            <div class="absolute top-3 right-3 bg-accent text-white text-xs px-2 py-1 rounded-full">
+                热销
+            </div>
+            <h3 class="text-lg font-medium text-gray-800 mb-2">檀香精油安神方案</h3>
+            <div class="space-y-2 mb-3">
+                <p class="text-sm text-gray-600"><span class="font-medium">精油配比：</span>檀香精油3滴+乳香精油2滴+没药精油1滴</p>
+                <p class="text-sm text-gray-600"><span class="font-medium">适用人群：</span>心神不宁、压力过大、情绪波动</p>
+                <p class="text-sm text-gray-600"><span class="font-medium">使用时间：</span>睡前45分钟</p>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-500">45分钟/次</span>
+                <button class="bg-primary text-white text-xs px-4 py-1 rounded-full">立即使用</button>
+            </div>
+        </div>
+
+        <!-- 方案卡片 -->
+        <div class="plan-card">
+            <h3 class="text-lg font-medium text-gray-800 mb-2">薄荷提神醒脑方案</h3>
+            <div class="space-y-2 mb-3">
+                <p class="text-sm text-gray-600"><span class="font-medium">精油配比：</span>薄荷精油2滴+柠檬精油2滴+迷迭香精油1滴</p>
+                <p class="text-sm text-gray-600"><span class="font-medium">适用人群：</span>疲劳乏力、注意力不集中、精神萎靡</p>
+                <p class="text-sm text-gray-600"><span class="font-medium">使用时间：</span>上午或下午工作前</p>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-500">30分钟/次</span>
+                <button class="bg-primary text-white text-xs px-4 py-1 rounded-full">立即使用</button>
+            </div>
+        </div>
+
+        <!-- 方案卡片 -->
+        <div class="plan-card">
+            <h3 class="text-lg font-medium text-gray-800 mb-2">玫瑰舒缓情绪方案</h3>
+            <div class="space-y-2 mb-3">
+                <p class="text-sm text-gray-600"><span class="font-medium">精油配比：</span>玫瑰精油2滴+茉莉精油2滴+依兰精油1滴</p>
+                <p class="text-sm text-gray-600"><span class="font-medium">适用人群：</span>情绪低落、抑郁寡欢、压力过大</p>
+                <p class="text-sm text-gray-600"><span class="font-medium">使用时间：</span>傍晚或睡前</p>
+            </div>
+            <div class="flex justify-between items-center">
+                <span class="text-xs text-gray-500">40分钟/次</span>
+                <button class="bg-primary text-white text-xs px-4 py-1 rounded-full">立即使用</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 rounded-t-3xl shadow-lg">
+        <div class="flex justify-around py-3">
+            <a href="index.html" class="nav-item">
+                <i class="fa fa-home text-xl mb-1"></i>
+                <span>首页</span>
+            </a>
+            <a href="health.html" class="nav-item active">
+                <i class="fa fa-heartbeat text-xl mb-1"></i>
+                <span>健康中心</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <i class="fa fa-user text-xl mb-1"></i>
+                <span>我的</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 立即使用按钮点击事件
+        document.querySelectorAll('.bg-primary.text-white').forEach(button => {
+            button.addEventListener('click', function() {
+                const planName = this.closest('.plan-card').querySelector('h3').textContent;
+                alert(`开始使用 ${planName}`);
+                // 实际应用中可以跳转到设备控制页面，并预设相应的参数
+                window.location.href = 'fog_control.html';
+            });
+        });
+    </script>
+</body>
+</html>

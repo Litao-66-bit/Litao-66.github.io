@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>情绪互动 - 熏眠听澜台</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#f3e5f5',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .content-auto {
+                content-visibility: auto;
+            }
+            .card-shadow {
+                box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            }
+            .nav-shadow {
+                box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            }
+            .floating {
+                animation: float 3s ease-in-out infinite;
+            }
+            @keyframes float {
+                0% { transform: translateY(0px); }
+                50% { transform: translateY(-10px); }
+                100% { transform: translateY(0px); }
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+    <!-- 顶部导航栏 -->
+    <header class="bg-white shadow-md sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <button id="backButton" class="mr-4 text-gray-600">
+                    <i class="fa fa-arrow-left text-xl"></i>
+                </button>
+                <h1 class="text-xl font-bold text-primary">情绪互动</h1>
+            </div>
+            <div class="flex items-center">
+                <button class="text-gray-600 mr-4" onclick="window.location.href='data_statistics.html'">
+                    <i class="fa fa-bar-chart text-xl"></i>
+                </button>
+                <button class="text-gray-600">
+                    <i class="fa fa-cog text-xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要内容区域 -->
+    <main class="container mx-auto px-4 py-6">
+        <!-- 情绪选择器 -->
+        <section class="mb-8">
+            <h2 class="text-lg font-bold mb-4 text-center">今天，你感觉怎么样？</h2>
+            <div class="grid grid-cols-5 gap-2 text-center">
+                <button class="flex flex-col items-center" onclick="selectMood('happy')">
+                    <div class="w-16 h-16 rounded-full bg-yellow-200 flex items-center justify-center mb-2 floating">
+                        <i class="fa fa-smile-o text-3xl text-yellow-500"></i>
+                    </div>
+                    <span class="text-xs">开心</span>
+                </button>
+                <button class="flex flex-col items-center" onclick="selectMood('calm')">
+                    <div class="w-16 h-16 rounded-full bg-blue-200 flex items-center justify-center mb-2">
+                        <i class="fa fa-meh-o text-3xl text-blue-500"></i>
+                    </div>
+                    <span class="text-xs">平静</span>
+                </button>
+                <button class="flex flex-col items-center" onclick="selectMood('tired')">
+                    <div class="w-16 h-16 rounded-full bg-purple-200 flex items-center justify-center mb-2">
+                        <i class="fa fa-tired text-3xl text-purple-500"></i>
+                    </div>
+                    <span class="text-xs">疲惫</span>
+                </button>
+                <button class="flex flex-col items-center" onclick="selectMood('sad')">
+                    <div class="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center mb-2">
+                        <i class="fa fa-frown-o text-3xl text-gray-500"></i>
+                    </div>
+                    <span class="text-xs">难过</span>
+                </button>
+                <button class="flex flex-col items-center" onclick="selectMood('angry')">
+                    <div class="w-16 h-16 rounded-full bg-red-200 flex items-center justify-center mb-2">
+                        <i class="fa fa-angry text-3xl text-red-500"></i>
+                    </div>
+                    <span class="text-xs">生气</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- 互动功能卡片区 -->
+        <section class="mb-8">
+            <div class="grid grid-cols-2 gap-4">
+                <!-- 音乐匹配卡片 -->
+                <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                    <div class="relative">
+                        <img src="https://p3-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/8c9287ae942740af9adc9ff77e8a3c93.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&rcl=20260530195118635529781A060130FFAE&rrcfp=8a172a1a&x-expires=1780746678&x-signature=%2FlqWBcGKzuMUYu%2FDM%2Fhg8NqV3pc%3D" 
+                             alt="音乐匹配" class="w-full h-32 object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
+                            <h3 class="text-white font-semibold">音乐匹配</h3>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <p class="text-sm text-gray-600">根据你的心情，为你推荐合适的音乐。</p>
+                        <button class="w-full mt-2 bg-primary text-white py-2 rounded-full text-sm" onclick="matchMusic()">开始匹配</button>
+                    </div>
+                </div>
+                <!-- 文字解压卡片 -->
+                <div class="bg-white rounded-lg overflow-hidden card-shadow">
+                    <div class="relative">
+                        <img src="https://p11-flow-imagex-download-sign.byteimg.com/tos-cn-i-a9rns2rl98/fdb5748035fb4e129dadcd37d1c9e8b1.png~tplv-a9rns2rl98-24:720:720.png?lk3s=8e244e95&rcl=20260530195118635529781A060130FFAE&rrcfp=8a172a1a&x-expires=1780746678&x-signature=%2BJ%2BIye2BkoC1nI9QpSbLoyuWqJI%3D" 
+                             alt="文字解压" class="w-full h-32 object-cover">
+                        <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-3">
+                            <h3 class="text-white font-semibold">文字解压</h3>
+                        </div>
+                    </div>
+                    <div class="p-3">
+                        <p class="text-sm text-gray-600">写下你的烦恼，让文字带走你的压力。</p>
+                        <button class="w-full mt-2 bg-primary text-white py-2 rounded-full text-sm" onclick="window.location.href='emotion_message.html'">开始书写</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 心情日记 -->
+        <section class="mb-8">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold">心情日记</h2>
+                <a href="mood_diary.html" class="text-sm text-primary">查看全部</a>
+            </div>
+            <div class="bg-white rounded-lg p-4 card-shadow">
+                <textarea id="diaryInput" class="w-full h-32 p-3 border rounded-lg text-sm" placeholder="记录下你今天的心情..."></textarea>
+                <div class="flex justify-end mt-2">
+                    <button class="bg-primary text-white px-4 py-2 rounded-full text-sm" onclick="saveDiary()">保存日记</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 解忧树洞 -->
+        <section>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-lg font-bold">解忧树洞</h2>
+                <a href="worry_tree.html" class="text-sm text-primary">去看看</a>
+            </div>
+            <div class="bg-white rounded-lg p-4 card-shadow">
+                <p class="text-sm text-gray-600 mb-3">把你的烦恼匿名说出来，会有人为你解忧。</p>
+                <button class="w-full bg-light text-primary py-2 rounded-full text-sm" onclick="window.location.href='worry_tree.html'">我有烦恼</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- 底部导航栏 -->
+    <footer class="fixed bottom-0 left-0 right-0 bg-white nav-shadow z-40">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-around py-3">
+                <a href="index.html" class="flex flex-col items-center text-gray-600">
+                    <i class="fa fa-home text-xl"></i>
+                    <span class="text-xs mt-1">首页</span>
+                </a>
+                <a href="health.html" class="flex flex-col items-center text-primary">
+                    <i class="fa fa-heartbeat text-xl"></i>
+                    <span class="text-xs mt-1">健康中心</span>
+                </a>
+                <a href="profile.html" class="flex flex-col items-center text-gray-600">
+                    <i class="fa fa-user text-xl"></i>
+                    <span class="text-xs mt-1">我的</span>
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // 返回按钮功能
+        document.getElementById('backButton').addEventListener('click', function() {
+            window.history.back();
+        });
+
+        // 选择心情
+        function selectMood(mood) {
+            const moods = {
+                'happy': { emoji: '😊', text: '开心', color: 'yellow' },
+                'calm': { emoji: '😐', text: '平静', color: 'blue' },
+                'tired': { emoji: '😴', text: '疲惫', color: 'purple' },
+                'sad': { emoji: '😢', text: '难过', color: 'gray' },
+                'angry': { emoji: '😠', text: '生气', color: 'red' }
+            };
+
+            // 更新UI
+            document.querySelectorAll('.grid-cols-5 > button > div').forEach(div => {
+                div.classList.remove('ring-4', 'ring-primary');
+            });
+            event.currentTarget.querySelector('div').classList.add('ring-4', 'ring-primary');
+
+            // 存储心情
+            localStorage.setItem('todayMood', mood);
+            
+            alert(`你今天的心情是：${moods[mood].emoji} ${moods[mood].text}`);
+        }
+
+        // 音乐匹配
+        function matchMusic() {
+            const mood = localStorage.getItem('todayMood') || 'calm';
+            const musicRecommendations = {
+                'happy': '欢快的流行音乐',
+                'calm': '舒缓的轻音乐',
+                'tired': '放松的白噪音',
+                'sad': '治愈的钢琴曲',
+                'angry': '平静的冥想音乐'
+            };
+
+            alert(`根据你的心情，推荐你听：${musicRecommendations[mood]}`);
+            // 这里可以跳转到音乐播放页面
+            window.location.href='music_control.html';
+        }
+
+        // 保存日记
+        function saveDiary() {
+            const content = document.getElementById('diaryInput').value;
+            if (!content.trim()) {
+                alert('请输入日记内容');
+                return;
+            }
+
+            const diary = {
+                date: new Date().toISOString().split('T')[0],
+                content: content,
+                mood: localStorage.getItem('todayMood') || 'calm'
+            };
+
+            // 存储日记
+            let diaries = JSON.parse(localStorage.getItem('diaries') || '[]');
+            diaries.push(diary);
+            localStorage.setItem('diaries', JSON.stringify(diaries));
+
+            alert('日记保存成功！');
+            document.getElementById('diaryInput').value = '';
+        }
+    </script>
+</body>
+</html>

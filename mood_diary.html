@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>熏眠听澜台 - 心情日记</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#fce4ec',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .card-shadow {
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .gradient-bg {
+                background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-4 py-2 rounded-full shadow-md hover:bg-opacity-90 transition-all;
+            }
+            .btn-secondary {
+                @apply bg-secondary text-primary px-4 py-2 rounded-full shadow-md hover:bg-opacity-90 transition-all;
+            }
+            .nav-item {
+                @apply flex flex-col items-center justify-center text-xs;
+            }
+            .nav-item.active {
+                @apply text-primary;
+            }
+            .nav-item:not(.active) {
+                @apply text-gray-500;
+            }
+            .mood-circle {
+                @apply w-12 h-12 rounded-full flex items-center justify-center text-2xl cursor-pointer transition-transform hover:scale-110;
+            }
+            .mood-circle.filled {
+                @apply border-2 border-primary;
+            }
+            .mood-circle.empty {
+                @apply bg-gray-100 text-gray-300;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 顶部导航栏 -->
+    <div class="bg-primary text-white p-4 shadow-md">
+        <div class="flex items-center">
+            <button onclick="window.location.href='emotion_center.html'" class="mr-4">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <h1 class="text-lg font-medium flex-grow text-center">心情日记</h1>
+            <div class="w-4"></div> <!-- 占位，保持标题居中 -->
+        </div>
+    </div>
+
+    <!-- 月份选择 -->
+    <div class="bg-white p-4 shadow-sm">
+        <div class="flex justify-between items-center">
+            <button class="text-gray-600">
+                <i class="fa fa-chevron-left"></i>
+            </button>
+            <h2 class="text-lg font-medium text-gray-800">2026年6月</h2>
+            <button class="text-gray-600">
+                <i class="fa fa-chevron-right"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- 日历网格 -->
+    <div class="bg-white mx-4 mt-4 rounded-xl shadow-sm p-4">
+        <!-- 星期标题 -->
+        <div class="grid grid-cols-7 gap-2 mb-4">
+            <div class="text-center text-xs text-gray-500">日</div>
+            <div class="text-center text-xs text-gray-500">一</div>
+            <div class="text-center text-xs text-gray-500">二</div>
+            <div class="text-center text-xs text-gray-500">三</div>
+            <div class="text-center text-xs text-gray-500">四</div>
+            <div class="text-center text-xs text-gray-500">五</div>
+            <div class="text-center text-xs text-gray-500">六</div>
+        </div>
+
+        <!-- 日期网格 -->
+        <div class="grid grid-cols-7 gap-2">
+            <!-- 上个月的日期 -->
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">28</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">29</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">30</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">31</span>
+                </div>
+            </div>
+
+            <!-- 本月的日期 -->
+            <div class="text-center">
+                <div class="mood-circle filled bg-yellow-100 text-yellow-500 mx-auto" data-mood="happy" data-date="6-1">
+                    <i class="fa fa-smile-o"></i>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">1</p>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle filled bg-blue-100 text-blue-500 mx-auto" data-mood="calm" data-date="6-2">
+                    <i class="fa fa-meh-o"></i>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">2</p>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle filled bg-purple-100 text-purple-500 mx-auto" data-mood="anxious" data-date="6-3">
+                    <i class="fa fa-frown-o"></i>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">3</p>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle filled bg-yellow-100 text-yellow-500 mx-auto" data-mood="happy" data-date="6-4">
+                    <i class="fa fa-smile-o"></i>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">4</p>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle filled bg-blue-100 text-blue-500 mx-auto" data-mood="calm" data-date="6-5">
+                    <i class="fa fa-meh-o"></i>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">5</p>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle filled bg-yellow-100 text-yellow-500 mx-auto" data-mood="happy" data-date="6-6">
+                    <i class="fa fa-smile-o"></i>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">6</p>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle filled bg-blue-100 text-blue-500 mx-auto" data-mood="calm" data-date="6-7">
+                    <i class="fa fa-meh-o"></i>
+                </div>
+                <p class="text-xs text-gray-500 mt-1">7</p>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">8</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">9</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">10</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">11</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">12</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">13</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">14</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">15</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">16</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">17</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">18</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">19</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">20</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">21</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">22</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">23</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">24</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">25</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">26</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">27</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">28</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">29</span>
+                </div>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle empty mx-auto">
+                    <span class="text-sm">30</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 今日心情记录 -->
+    <div class="bg-white mx-4 mt-4 rounded-xl shadow-sm p-4">
+        <h3 class="text-lg font-medium text-gray-800 mb-3">今日心情</h3>
+        
+        <div class="flex justify-center space-x-4 mb-4">
+            <div class="text-center">
+                <div class="mood-circle bg-yellow-100 text-yellow-500 mx-auto" data-mood="happy">
+                    <i class="fa fa-smile-o"></i>
+                </div>
+                <p class="text-xs text-gray-600 mt-1">愉悦</p>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle bg-blue-100 text-blue-500 mx-auto" data-mood="calm">
+                    <i class="fa fa-meh-o"></i>
+                </div>
+                <p class="text-xs text-gray-600 mt-1">平静</p>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle bg-purple-100 text-purple-500 mx-auto" data-mood="anxious">
+                    <i class="fa fa-frown-o"></i>
+                </div>
+                <p class="text-xs text-gray-600 mt-1">焦虑</p>
+            </div>
+            <div class="text-center">
+                <div class="mood-circle bg-red-100 text-red-500 mx-auto" data-mood="sad">
+                    <i class="fa fa-sad-tear"></i>
+                </div>
+                <p class="text-xs text-gray-600 mt-1">低落</p>
+            </div>
+        </div>
+        
+        <div class="mb-4">
+            <label class="block text-sm font-medium text-gray-700 mb-2">心情记录</label>
+            <textarea class="w-full border border-gray-300 rounded-lg p-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary" rows="3" placeholder="记录下今天的心情..."></textarea>
+        </div>
+        
+        <button class="w-full btn-primary">保存记录</button>
+    </div>
+
+    <!-- 心情统计 -->
+    <div class="bg-white mx-4 mt-4 mb-20 rounded-xl shadow-sm p-4">
+        <h3 class="text-lg font-medium text-gray-800 mb-3">本月心情统计</h3>
+        
+        <div class="grid grid-cols-2 gap-4">
+            <div>
+                <p class="text-sm text-gray-600 mb-2">最常见心情</p>
+                <div class="flex items-center">
+                    <div class="mood-circle bg-yellow-100 text-yellow-500 mr-2">
+                        <i class="fa fa-smile-o"></i>
+                    </div>
+                    <span class="text-sm font-medium">愉悦 (43%)</span>
+                </div>
+            </div>
+            <div>
+                <p class="text-sm text-gray-600 mb-2">连续记录</p>
+                <div class="flex items-center">
+                    <i class="fa fa-calendar-check-o text-primary mr-2"></i>
+                    <span class="text-sm font-medium">7 天</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 rounded-t-3xl shadow-lg">
+        <div class="flex justify-around py-3">
+            <a href="index.html" class="nav-item">
+                <i class="fa fa-home text-xl mb-1"></i>
+                <span>首页</span>
+            </a>
+            <a href="health.html" class="nav-item active">
+                <i class="fa fa-heartbeat text-xl mb-1"></i>
+                <span>健康中心</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <i class="fa fa-user text-xl mb-1"></i>
+                <span>我的</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 页面加载时执行
+        window.onload = function() {
+            // 心情选择
+            const moodCircles = document.querySelectorAll('.mood-circle[data-mood]');
+            moodCircles.forEach(circle => {
+                circle.addEventListener('click', function() {
+                    const mood = this.getAttribute('data-mood');
+                    const date = this.getAttribute('data-date');
+                    
+                    // 如果是日历中的心情记录，显示详情
+                    if (date) {
+                        showMoodDetail(date, mood);
+                    } else {
+                        // 如果是今日心情选择，选中该心情
+                        selectTodayMood(mood);
+                    }
+                });
+            });
+        };
+
+        // 显示心情详情
+        function showMoodDetail(date, mood) {
+            const moodNames = {
+                'happy': '愉悦',
+                'calm': '平静',
+                'anxious': '焦虑',
+                'sad': '低落'
+            };
+            
+            alert(`2026年${date}的心情：${moodNames[mood]}`);
+        }
+
+        // 选择今日心情
+        function selectTodayMood(mood) {
+            const moodCircles = document.querySelectorAll('.mood-circle[data-mood]:not([data-date])');
+            moodCircles.forEach(circle => {
+                circle.classList.remove('ring-2', 'ring-primary');
+            });
+            
+            const selectedCircle = document.querySelector(`.mood-circle[data-mood="${mood}"]:not([data-date])`);
+            selectedCircle.classList.add('ring-2', 'ring-primary');
+            
+            // 自动填充文本框
+            const textarea = document.querySelector('textarea');
+            const moodTexts = {
+                'happy': '今天心情很好，感觉很愉悦！',
+                'calm': '今天心情平静，一切都很顺利。',
+                'anxious': '今天有些焦虑，需要调整一下。',
+                'sad': '今天心情低落，希望明天会更好。'
+            };
+            
+            if (!textarea.value) {
+                textarea.value = moodTexts[mood];
+            }
+        }
+    </script>
+</body>
+</html>

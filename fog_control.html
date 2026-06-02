@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>熏眠听澜台 - 雾化控制</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#fce4ec',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .card-shadow {
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .gradient-bg {
+                background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-4 py-2 rounded-full shadow-md hover:bg-opacity-90 transition-all;
+            }
+            .btn-secondary {
+                @apply bg-secondary text-primary px-4 py-2 rounded-full shadow-md hover:bg-opacity-90 transition-all;
+            }
+            .nav-item {
+                @apply flex flex-col items-center justify-center text-xs;
+            }
+            .nav-item.active {
+                @apply text-primary;
+            }
+            .nav-item:not(.active) {
+                @apply text-gray-500;
+            }
+            .slider-track {
+                @apply h-2 bg-light rounded-full;
+            }
+            .slider-thumb {
+                @apply w-6 h-6 bg-primary rounded-full shadow-md -mt-2 cursor-pointer;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- 顶部导航栏 -->
+    <div class="bg-primary text-white p-4 shadow-md">
+        <div class="flex items-center">
+            <button onclick="window.location.href='index.html'" class="mr-4">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <h1 class="text-lg font-medium flex-grow text-center">雾化控制</h1>
+            <div class="flex items-center">
+                <label class="inline-flex items-center cursor-pointer">
+                    <input type="checkbox" value="" class="sr-only peer" checked>
+                    <div class="relative w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-accent"></div>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- 设备当前状态 -->
+    <div class="bg-white rounded-xl p-4 mx-4 mt-4 shadow-sm">
+        <h3 class="text-lg font-medium text-gray-800 mb-3">【设备当前状态】</h3>
+        <div class="space-y-2">
+            <p class="text-sm text-gray-600">当前精华精油：薰衣草精油</p>
+            <p class="text-sm text-gray-600">定时剩余：01:23:45</p>
+        </div>
+    </div>
+
+    <!-- 控制选项 -->
+    <div class="bg-white rounded-xl p-4 mx-4 mt-4 shadow-sm">
+        <!-- 雾化时长 -->
+        <div class="mb-6">
+            <div class="flex justify-between items-center mb-2">
+                <label class="text-sm text-gray-600">雾化时长</label>
+                <span class="text-sm font-medium text-primary" id="durationValue">90分钟</span>
+            </div>
+            <input type="range" min="15" max="180" value="90" step="15" class="w-full h-2 bg-light rounded-full appearance-none cursor-pointer" id="durationSlider">
+        </div>
+
+        <!-- 精油选择 -->
+        <div class="mb-6">
+            <label class="text-sm text-gray-600 block mb-2">精油选择</label>
+            <select class="w-full p-2 border border-gray-200 rounded-lg bg-light text-primary text-sm">
+                <option>远志+合欢花</option>
+                <option>薰衣草精油</option>
+                <option>柠檬精油</option>
+                <option>薄荷精油</option>
+                <option>玫瑰精油</option>
+            </select>
+        </div>
+
+        <!-- 精油剩余 -->
+        <div class="mb-6">
+            <div class="flex justify-between items-center mb-2">
+                <label class="text-sm text-gray-600">精油剩余</label>
+                <span class="text-sm font-medium text-primary">90%</span>
+            </div>
+            <div class="h-2 bg-light rounded-full">
+                <div class="h-full bg-primary rounded-full" style="width: 90%"></div>
+            </div>
+        </div>
+
+        <!-- 去商城按钮 -->
+        <button class="w-full bg-light text-primary py-3 rounded-lg text-sm font-medium" onclick="window.location.href='shop.html'">
+            去商城
+        </button>
+    </div>
+
+    <!-- 一键雾化按钮 -->
+    <div class="flex justify-center mt-8 mb-20">
+        <button class="w-24 h-24 bg-primary rounded-full flex items-center justify-center shadow-lg" id="startFogBtn">
+            <span class="text-white font-medium">一键雾化</span>
+        </button>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 rounded-t-3xl shadow-lg">
+        <div class="flex justify-around py-3">
+            <a href="index.html" class="nav-item">
+                <i class="fa fa-home text-xl mb-1"></i>
+                <span>首页</span>
+            </a>
+            <a href="health.html" class="nav-item">
+                <i class="fa fa-heartbeat text-xl mb-1"></i>
+                <span>健康中心</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <i class="fa fa-user text-xl mb-1"></i>
+                <span>我的</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // 雾化时长滑块
+        const durationSlider = document.getElementById('durationSlider');
+        const durationValue = document.getElementById('durationValue');
+        
+        durationSlider.addEventListener('input', function() {
+            durationValue.textContent = this.value + '分钟';
+        });
+
+        // 一键雾化按钮
+        const startFogBtn = document.getElementById('startFogBtn');
+        let isFogging = false;
+        
+        startFogBtn.addEventListener('click', function() {
+            isFogging = !isFogging;
+            if (isFogging) {
+                this.style.background = '#ff4081';
+                this.querySelector('span').textContent = '停止雾化';
+                alert('开始雾化');
+            } else {
+                this.style.background = '#9c27b0';
+                this.querySelector('span').textContent = '一键雾化';
+                alert('停止雾化');
+            }
+        });
+    </script>
+</body>
+</html>

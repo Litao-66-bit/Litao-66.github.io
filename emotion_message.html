@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>熏眠听澜台 - 情绪密语</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@mlc-ai/web-llm@0.2.28/dist/index.global.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#9c27b0',
+                        secondary: '#f8bbd0',
+                        accent: '#ff4081',
+                        light: '#fce4ec',
+                        dark: '#4a148c'
+                    },
+                    fontFamily: {
+                        sans: ['PingFang SC', 'Helvetica Neue', 'Arial', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style type="text/tailwindcss">
+        @layer utilities {
+            .text-shadow {
+                text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            }
+            .card-shadow {
+                box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            }
+            .gradient-bg {
+                background: linear-gradient(135deg, #fce4ec 0%, #f8bbd0 100%);
+            }
+            .btn-primary {
+                @apply bg-primary text-white px-4 py-2 rounded-full shadow-md hover:bg-opacity-90 transition-all;
+            }
+            .btn-secondary {
+                @apply bg-secondary text-primary px-4 py-2 rounded-full shadow-md hover:bg-opacity-90 transition-all;
+            }
+            .nav-item {
+                @apply flex flex-col items-center justify-center text-xs;
+            }
+            .nav-item.active {
+                @apply text-primary;
+            }
+            .nav-item:not(.active) {
+                @apply text-gray-500;
+            }
+            .message-bubble {
+                @apply rounded-2xl p-4 max-w-[80%] relative;
+            }
+            .message-bubble.user {
+                @apply bg-primary text-white rounded-tr-none;
+            }
+            .message-bubble.agent {
+                @apply bg-light text-gray-700 rounded-tl-none;
+            }
+            .typing-indicator {
+                display: inline-block;
+            }
+            .typing-indicator span {
+                display: inline-block;
+                width: 8px;
+                height: 8px;
+                background-color: #9c27b0;
+                border-radius: 50%;
+                animation: typing 1.4s infinite ease-in-out both;
+            }
+            .typing-indicator span:nth-child(1) {
+                animation-delay: -0.32s;
+            }
+            .typing-indicator span:nth-child(2) {
+                animation-delay: -0.16s;
+            }
+            .typing-indicator span:nth-child(3) {
+                animation-delay: 0s;
+            }
+            @keyframes typing {
+                0%, 80%, 100% {
+                    transform: scale(0.8);
+                    opacity: 0.5;
+                }
+                40% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+            .loading-bar {
+                width: 100%;
+                height: 4px;
+                background: #f3e5f5;
+                border-radius: 2px;
+                overflow: hidden;
+            }
+            .loading-progress {
+                height: 100%;
+                background: linear-gradient(90deg, #9c27b0, #e91e63);
+                animation: loading 2s ease-in-out infinite;
+            }
+            @keyframes loading {
+                0% {
+                    width: 0%;
+                }
+                50% {
+                    width: 100%;
+                }
+                100% {
+                    width: 0%;
+                }
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans h-screen flex flex-col overflow-hidden">
+    <!-- 顶部导航栏 -->
+    <div class="bg-primary text-white p-4 shadow-md flex-shrink-0 z-20">
+        <div class="flex items-center">
+            <button onclick="window.location.href='emotion_center.html'" class="mr-4">
+                <i class="fa fa-arrow-left"></i>
+            </button>
+            <div class="flex-grow text-center">
+                <h1 class="text-lg font-medium">小熏 AI</h1>
+                <p class="text-xs text-white/80" id="aiStatus">正在初始化... 请稍候</p>
+            </div>
+            <div class="w-4"></div>
+        </div>
+        <div class="mt-2" id="loadingContainer">
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 主要聊天内容区域 -->
+    <div class="flex-grow overflow-y-auto p-4" id="chatScrollContainer">
+        <div id="chatContainer" class="space-y-4">
+            <div class="flex justify-start">
+                <div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fa fa-heart text-primary"></i>
+                </div>
+                <div class="message-bubble agent">
+                    <p class="text-sm">
+                        你好呀！👋 我是小熏，你的专属情绪伙伴。💕
+                    </p>
+                </div>
+            </div>
+            <div class="flex justify-start">
+                <div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fa fa-heart text-primary"></i>
+                </div>
+                <div class="message-bubble agent">
+                    <p class="text-sm">
+                        我正在加载本地AI模型... 完成后我就能更智能地与你交流了！
+                    </p>
+                </div>
+            </div>
+            <div class="flex justify-start">
+                <div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fa fa-heart text-primary"></i>
+                </div>
+                <div class="message-bubble agent">
+                    <p class="text-sm">
+                        在此期间，你可以先和我聊聊你的心情！😊
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 快捷功能区 -->
+    <div class="bg-white border-t border-gray-200 flex-shrink-0">
+        <div class="p-4">
+            <div class="flex justify-between items-center mb-2">
+                <h3 class="text-sm font-medium text-gray-600">
+                    <i class="fa fa-lightbulb-o text-primary mr-1"></i>
+                    快速开始对话
+                </h3>
+            </div>
+            <div class="flex space-x-2 overflow-x-auto pb-2">
+                <button class="bg-light text-primary px-3 py-2 rounded-full text-sm whitespace-nowrap flex items-center" onclick="quickAction('心情分享')">
+                    <i class="fa fa-smile-o mr-1"></i>
+                    分享心情
+                </button>
+                <button class="bg-light text-primary px-3 py-2 rounded-full text-sm whitespace-nowrap flex items-center" onclick="quickAction('助眠建议')">
+                    <i class="fa fa-moon-o mr-1"></i>
+                    助眠建议
+                </button>
+                <button class="bg-light text-primary px-3 py-2 rounded-full text-sm whitespace-nowrap flex items-center" onclick="quickAction('放松音乐')">
+                    <i class="fa fa-music mr-1"></i>
+                    放松音乐
+                </button>
+                <button class="bg-light text-primary px-3 py-2 rounded-full text-sm whitespace-nowrap flex items-center" onclick="quickAction('精油推荐')">
+                    <i class="fa fa-leaf mr-1"></i>
+                    精油推荐
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 输入区域 -->
+    <div class="bg-white border-t border-gray-200 p-4 flex-shrink-0">
+        <div class="flex items-center">
+            <button class="text-gray-500 mr-3 text-lg" onclick="showEmojiPicker()">
+                <i class="fa fa-smile-o"></i>
+            </button>
+            <div class="flex-grow relative">
+                <input type="text" id="messageInput" class="w-full border border-gray-300 rounded-full px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-primary pr-12" placeholder="和小熏说点什么吧...">
+            </div>
+            <button class="btn-primary ml-3" onclick="sendMessage()">
+                <i class="fa fa-paper-plane"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- 底部导航栏 -->
+    <div class="bg-white border-t border-gray-200 flex-shrink-0">
+        <div class="flex justify-around py-3">
+            <a href="index.html" class="nav-item">
+                <i class="fa fa-home text-xl mb-1"></i>
+                <span>首页</span>
+            </a>
+            <a href="health.html" class="nav-item active">
+                <i class="fa fa-heartbeat text-xl mb-1"></i>
+                <span>健康中心</span>
+            </a>
+            <a href="profile.html" class="nav-item">
+                <i class="fa fa-user text-xl mb-1"></i>
+                <span>我的</span>
+            </a>
+        </div>
+    </div>
+
+    <script>
+        let conversationHistory = [];
+        let aiEngine = { type: 'none', name: '离线模式', ready: false };
+        let ollamaEngine = null;
+        let webllmEngine = null;
+
+        const knowledgeBase = {
+            greetings: [
+                '你好呀！很高兴见到你！😊',
+                '嗨！今天过得怎么样？',
+                '你好呀！有什么想和我聊聊的吗？'
+            ],
+            happy: [
+                '太棒了！听到你开心我也很开心！🎉',
+                '真好！能分享一下是什么让你这么开心吗？',
+                '保持这份好心情！✨'
+            ],
+            sad: [
+                '我很抱歉听到你不开心，想和我说说发生了什么吗？',
+                '难过是很正常的情绪，说出来会好一些的。',
+                '抱抱你 🤗，我在这里陪着你。'
+            ],
+            anxious: [
+                '焦虑的感觉确实不好受，试着深呼吸一下？',
+                '能告诉我是什么让你感到焦虑吗？',
+                '试着放松一下，我在这里陪着你。'
+            ],
+            sleep: [
+                '睡眠问题确实很困扰人，让我给你一些建议吧：',
+                '睡前可以试试这些方法帮助你入睡：',
+                '好的睡眠对健康很重要，我们来一起改善它吧：'
+            ],
+            music: [
+                '根据你的心情，我推荐这些音乐：',
+                '音乐是治愈心灵的良药，试试这些吧：',
+                '让我为你推荐一些适合的音乐：'
+            ],
+            oil: [
+                '让我为你推荐一些精油：',
+                '不同的精油有不同的功效，你可以试试：',
+                '精油是很神奇的东西，这些很适合你：'
+            ],
+            relax: [
+                '放松的方法有很多种，你可以试试这些：',
+                '让我分享一些放松技巧给你：',
+                '来试试这些放松方法吧：'
+            ],
+            thanks: [
+                '不客气！能帮到你我很开心 😊',
+                '随时愿意为你服务！💕',
+                '很高兴能帮到你！'
+            ],
+            default: [
+                '我在听你说～',
+                '明白了，还有什么想聊的吗？',
+                '这样啊，我理解你的意思。',
+                '嗯嗯，继续说，我在听。'
+            ]
+        };
+
+        const detailedAdvice = {
+            sleep: `
+睡眠小贴士：
+1. 保持规律的作息时间
+2. 睡前1小时避免使用电子设备
+3. 可以试试我们的薰衣草精油助眠模式
+4. 睡前喝杯温牛奶
+5. 保持卧室安静、黑暗、温度适宜`,
+            music: `
+音乐推荐：
+🎵 轻音乐：班得瑞、神秘园
+🎵 自然声音：雨声、海浪声
+🎵 古典音乐：肖邦夜曲
+🎵 冥想音乐：阿尔法脑波音乐`,
+            oil: `
+精油推荐：
+🌸 薰衣草：助眠、放松
+🍊 甜橙：提神、抗抑郁
+🌸 洋甘菊：镇静、安抚
+🍃 薄荷：提神、缓解头痛`,
+            relax: `
+放松方法：
+🧘 深呼吸练习：吸气4秒，屏息4秒，呼气8秒
+🧘 渐进式肌肉放松
+🧘 正念冥想
+🧘 听轻音乐
+🧘 温水泡脚`
+        };
+
+        // ====== AI引擎初始化 ======
+
+        async function initAI() {
+            setStatus('正在初始化AI引擎...');
+
+            // 方案1: 检测Ollama (本地DeepSeek/Llama等)
+            const ollamaOk = await checkOllama();
+            if (ollamaOk) {
+                setStatus('Ollama已连接');
+                hideLoadingBar();
+                aiEngine = { type: 'ollama', name: 'Ollama', ready: true };
+                addAgentMessage('已连接到本地 Ollama！正在使用 ' + ollamaEngine + ' 模型为你服务 ✨\n\n你可以随时和我聊天，分享你的心情和感受！');
+                return;
+            }
+
+            // 方案2: 尝试WebLLM (浏览器原生推理)
+            setStatus('未检测到Ollama，尝试加载浏览器AI...');
+            const webllmOk = await initWebLLM();
+            if (webllmOk) {
+                setStatus('WebLLM已就绪');
+                hideLoadingBar();
+                aiEngine = { type: 'webllm', name: '浏览器AI', ready: true };
+                addAgentMessage('浏览器AI已加载完成！现在我可以更智能地与你交流了 ✨\n\n分享你的心情，或者让我帮你放松一下吧！');
+                return;
+            }
+
+            // 方案3: 规则引擎 (无条件可用)
+            setStatus('智能模式已启动');
+            hideLoadingBar();
+            aiEngine = { type: 'rule', name: '智能助手', ready: true };
+            addAgentMessage('你好呀！我是小熏，你的专属情绪伙伴 💕\n\n虽然没有检测到本地AI服务，但我仍然可以用内置的知识库为你提供帮助！\n\n你可以试试：\n- "我很难过" - 情绪疏导\n- "助眠建议" - 睡眠指导\n- "放松音乐" - 音乐推荐\n- "精油推荐" - 精油建议');
+        }
+
+        // ====== 方案1: Ollama集成 ======
+
+        async function checkOllama() {
+            try {
+                const resp = await fetch('http://localhost:11434/api/tags', {
+                    mode: 'cors',
+                    signal: AbortSignal.timeout(5000)
+                });
+                if (!resp.ok) return false;
+                const data = await resp.json();
+                const models = data.models || [];
+                if (models.length === 0) return false;
+
+                // 优先选择DeepSeek模型，其次其他可用模型
+                const prefModels = ['deepseek-r1', 'deepseek-coder', 'deepseek-llm', 'llama3', 'llama', 'qwen', 'mistral', 'mixtral', 'gemma'];
+                let selected = models[0].name;
+                for (const pref of prefModels) {
+                    const found = models.find(m => m.name.toLowerCase().startsWith(pref));
+                    if (found) {
+                        selected = found.name;
+                        break;
+                    }
+                }
+                ollamaEngine = selected;
+                return true;
+            } catch {
+                return false;
+            }
+        }
+
+        async function askOllama(messages) {
+            const systemPrompt = '你是一个温柔体贴、善解人意的情绪陪伴助手，名叫小熏。你的回答要温暖、简短、有同理心。用中文回答，使用emoji表情增加亲和力。';
+            const userMsg = messages.filter(m => m.role === 'user').map(m => m.content).join('\n');
+
+            try {
+                const resp = await fetch('http://localhost:11434/api/generate', {
+                    method: 'POST',
+                    mode: 'cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        model: ollamaEngine,
+                        prompt: userMsg,
+                        system: systemPrompt,
+                        stream: false,
+                        options: {
+                            temperature: 0.7,
+                            max_tokens: 512
+                        }
+                    })
+                });
+                if (!resp.ok) return null;
+                const data = await resp.json();
+                return data.response || null;
+            } catch {
+                return null;
+            }
+        }
+
+        // ====== 方案2: WebLLM ======
+
+        async function initWebLLM() {
+            try {
+                if (!window.webllm && !window.CreateMLCEngine) {
+                    return false;
+                }
+                const { CreateMLCEngine } = window.webllm || window;
+                if (!CreateMLCEngine) return false;
+
+                // 使用较小的模型 Qwen2-0.5B
+                const modelName = 'Qwen2-0.5B-Instruct-q4f16_1-MLC';
+                setStatus('正在下载AI模型 (约350MB)...');
+                
+                webllmEngine = await CreateMLCEngine(modelName, {
+                    initProgressCallback: (report) => {
+                        const pct = Math.round((report.progress || 0) * 100);
+                        setStatus('下载中 ' + pct + '%');
+                    }
+                });
+                return true;
+            } catch (e) {
+                console.log('WebLLM初始化失败:', e.message);
+                return false;
+            } finally {
+                hideLoadingBar();
+            }
+        }
+
+        async function askWebLLM(message) {
+            try {
+                const reply = await webllmEngine.chat.completions.create({
+                    messages: [
+                        { role: 'system', content: '你是一个温柔体贴的情绪陪伴助手"小熏"的专业简化版AI。用户的信息简短地回答即可保持自然温暖。用中文+适量emoji。' },
+                        { role: 'user', content: message }
+                    ],
+                    max_tokens: 256,
+                    temperature: 0.7
+                });
+                return reply.choices[0].message.content || null;
+            } catch {
+                return null;
+            }
+        }
+
+        // ====== 方案3: 规则引擎 ======
+
+        function getRuleResponse(message) {
+            message = message.toLowerCase();
+            
+            if (message.includes('开心') || message.includes('高兴') || message.includes('快乐') || message.includes('😊')) {
+                return getRandomResponse('happy');
+            } else if (message.includes('难过') || message.includes('不开心') || message.includes('伤心') || message.includes('😢')) {
+                return getRandomResponse('sad');
+            } else if (message.includes('焦虑') || message.includes('紧张') || message.includes('压力') || message.includes('担心')) {
+                return getRandomResponse('anxious');
+            } else if (message.includes('睡觉') || message.includes('失眠') || message.includes('睡不好') || message.includes('睡不着')) {
+                return getRandomResponse('sleep') + '\n\n' + detailedAdvice.sleep;
+            } else if (message.includes('音乐') || message.includes('听歌')) {
+                return getRandomResponse('music') + '\n\n' + detailedAdvice.music;
+            } else if (message.includes('精油') || message.includes('香薰')) {
+                return getRandomResponse('oil') + '\n\n' + detailedAdvice.oil;
+            } else if (message.includes('放松') || message.includes('休息')) {
+                return getRandomResponse('relax') + '\n\n' + detailedAdvice.relax;
+            } else if (message.includes('谢谢') || message.includes('感谢')) {
+                return getRandomResponse('thanks');
+            } else if (message.includes('心情分享')) {
+                return '好呀好呀！快和我分享一下你现在的心情吧！是开心还是有点低落呢？我会认真倾听的～';
+            } else if (message.includes('助眠建议')) {
+                return getRandomResponse('sleep') + '\n\n' + detailedAdvice.sleep;
+            } else if (message.includes('放松音乐')) {
+                return getRandomResponse('music') + '\n\n' + detailedAdvice.music;
+            } else if (message.includes('精油推荐')) {
+                return getRandomResponse('oil') + '\n\n' + detailedAdvice.oil;
+            } else if (message.includes('你好') || message.includes('嗨') || message.includes('hi')) {
+                return getRandomResponse('greetings');
+            } else if (message.includes('什么引擎') || message.includes('什么模型') || message.includes('用的什么')) {
+                return getEngineInfo();
+            } else {
+                return getRandomResponse('default');
+            }
+        }
+
+        function getEngineInfo() {
+            switch (aiEngine.type) {
+                case 'ollama':
+                    return '我正在使用本地的 Ollama 服务，模型是 ' + ollamaEngine + ' 🚀';
+                case 'webllm':
+                    return '我正在使用浏览器内置的 WebLLM 推理引擎 🤖';
+                case 'rule':
+                    return '我目前运行在离线知识库模式，虽然没有大模型加持，但依然可以为你提供帮助！💪';
+                default:
+                    return '小熏正在准备中... 请稍后再问我吧 😊';
+            }
+        }
+
+        function getRandomResponse(type) {
+            const responseList = knowledgeBase[type];
+            const randomIndex = Math.floor(Math.random() * responseList.length);
+            return responseList[randomIndex];
+        }
+
+        // ====== 消息发送与回复 ======
+
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            if (!message) return;
+
+            addUserMessage(message);
+            conversationHistory.push({ role: 'user', content: message });
+            input.value = '';
+            showTypingIndicator();
+
+            let response = await generateResponse(message);
+
+            hideTypingIndicator();
+            addAgentMessage(response);
+            conversationHistory.push({ role: 'assistant', content: response });
+        }
+
+        async function generateResponse(message) {
+            if (aiEngine.type === 'ollama') {
+                const reply = await askOllama(conversationHistory.slice(-6));
+                if (reply) return reply;
+                // Ollama失败，降级到规则引擎
+                aiEngine = { type: 'rule', name: '智能助手', ready: true };
+                setStatus('Ollama断开，切换至离线模式');
+            }
+
+            if (aiEngine.type === 'webllm') {
+                const reply = await askWebLLM(message);
+                if (reply) return reply;
+                // WebLLM失败，降级到规则引擎
+                aiEngine = { type: 'rule', name: '智能助手', ready: true };
+                setStatus('浏览器AI断开，切换至离线模式');
+            }
+
+            return getRuleResponse(message);
+        }
+
+        // ====== 快捷操作 ======
+
+        function quickAction(action) {
+            document.getElementById('messageInput').value = action;
+            sendMessage();
+        }
+
+        function showEmojiPicker() {
+            const emojis = ['😊', '😢', '😌', '😴', '😃', '❤️', '✨', '🌸'];
+            document.getElementById('messageInput').value = emojis[Math.floor(Math.random() * emojis.length)];
+            sendMessage();
+        }
+
+        // ====== UI操作 ======
+
+        function addUserMessage(text) {
+            const chatContainer = document.getElementById('chatContainer');
+            const div = document.createElement('div');
+            div.className = 'flex justify-end';
+            div.innerHTML = `
+                <div class="message-bubble user">
+                    <p class="text-sm">${escapeHtml(text)}</p>
+                </div>
+                <div class="w-10 h-10 rounded-full bg-primary flex items-center justify-center ml-3 flex-shrink-0">
+                    <i class="fa fa-user text-white"></i>
+                </div>`;
+            chatContainer.appendChild(div);
+            scrollToBottom();
+        }
+
+        function addAgentMessage(text) {
+            const chatContainer = document.getElementById('chatContainer');
+            const div = document.createElement('div');
+            div.className = 'flex justify-start';
+            div.innerHTML = `
+                <div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fa fa-heart text-primary"></i>
+                </div>
+                <div class="message-bubble agent">
+                    <p class="text-sm whitespace-pre-line">${escapeHtml(text)}</p>
+                </div>`;
+            chatContainer.appendChild(div);
+            scrollToBottom();
+        }
+
+        function showTypingIndicator() {
+            const chatContainer = document.getElementById('chatContainer');
+            const div = document.createElement('div');
+            div.id = 'typingIndicator';
+            div.className = 'flex justify-start';
+            div.innerHTML = `
+                <div class="w-10 h-10 rounded-full bg-secondary flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fa fa-heart text-primary"></i>
+                </div>
+                <div class="message-bubble agent">
+                    <div class="typing-indicator">
+                        <span></span>
+                        <span class="mx-1"></span>
+                        <span></span>
+                    </div>
+                </div>`;
+            chatContainer.appendChild(div);
+            scrollToBottom();
+        }
+
+        function hideTypingIndicator() {
+            const el = document.getElementById('typingIndicator');
+            if (el) el.remove();
+        }
+
+        function setStatus(text) {
+            const el = document.getElementById('aiStatus');
+            if (el) el.textContent = text;
+        }
+
+        function hideLoadingBar() {
+            const el = document.getElementById('loadingContainer');
+            if (el) el.style.display = 'none';
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function scrollToBottom() {
+            const container = document.getElementById('chatScrollContainer');
+            if (container) container.scrollTop = container.scrollHeight;
+        }
+
+        // ====== 事件绑定 ======
+
+        document.getElementById('messageInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            initAI();
+        });
+    </script>
+</body>
+</html>
